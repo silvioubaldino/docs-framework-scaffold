@@ -16,7 +16,10 @@ Registro cronológico de mudanças nos docs compartilhados (PROD, REQ, AYD, ROAD
 - Documentação inicializada a partir do scaffold.
 
 <!--
-## [AAAA-MM-DD]
+Ordem: mais recente no topo. No commit/PR de release, renomeie [Não lançado] para
+o formato abaixo e crie um novo [Não lançado] vazio acima.
+
+## [DD-MM-YYYY - vMAJOR.MINOR.PATCH]
 ### Adicionado / Alterado / Removido
 ### Decisões (PDR/ADR)
 ### Propagação (docs marcados como review/superseded)

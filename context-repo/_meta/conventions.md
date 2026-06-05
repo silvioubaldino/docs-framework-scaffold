@@ -79,7 +79,33 @@ IDs são **globais no produto**. Para apontar um doc de outro repo, use `ID@repo
 
 Auditoria dos docs vivos mora no **git + changelog**.
 
-## 7. Propagação de mudanças
+## 7. Idioma
+
+- **Documentação** (docs, comentários em PRs, changelogs): pode ser escrita em **português**.
+- **Código** (variáveis, funções, classes, módulos, rotas): obrigatoriamente em **inglês**.
+- **Entidades canônicas** (nomes de domínio usados em código, APIs, banco de dados e no glossário): obrigatoriamente em **inglês** — as definições em português ficam apenas como descrição no glossário.
+- Exceção: se o time solicitar explicitamente outro idioma para um contexto específico, prevalece a solicitação.
+
+## 8. Changelog
+
+- **Ordem cronológica reversa**: entradas mais recentes ficam **no topo**; as mais antigas ficam no final do arquivo.
+- **Versionamento semver** (`MAJOR.MINOR.PATCH`).
+- **Em desenvolvimento**: use o bloco `## [Não lançado]` para acumular mudanças ainda não publicadas.
+- **No commit/PR de release**: renomeie `[Não lançado]` para `## [DD-MM-YYYY - vMAJOR.MINOR.PATCH]` e crie um novo bloco `## [Não lançado]` vazio acima dele.
+- Estrutura esperada:
+
+```markdown
+## [Não lançado]
+- (próximas mudanças)
+
+## [04-06-2026 - v1.2.0]
+- Adicionado: suporte a X.
+
+## [01-06-2026 - v1.1.0]
+- Alterado: comportamento de Y.
+```
+
+## 9. Propagação de mudanças
 
 Ao alterar um doc:
 1. Edita (ou cria uma decisão PDR/ADR/TDR, se for o caso) e atualiza `updated`.
