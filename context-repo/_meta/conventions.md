@@ -3,7 +3,7 @@ id: META-conventions
 type: meta
 title: Convenções da documentação
 status: approved
-updated: 2025-01-01
+updated: 2026-06-17
 ---
 
 # Convenções da documentação
@@ -79,33 +79,46 @@ IDs são **globais no produto**. Para apontar um doc de outro repo, use `ID@repo
 
 Auditoria dos docs vivos mora no **git + changelog**.
 
-## 7. Idioma
+## 7. Propagação de mudanças
 
-- **Documentação** (docs, comentários em PRs, changelogs): pode ser escrita em **português**.
-- **Código** (variáveis, funções, classes, módulos, rotas): obrigatoriamente em **inglês**.
-- **Entidades canônicas** (nomes de domínio usados em código, APIs, banco de dados e no glossário): obrigatoriamente em **inglês** — as definições em português ficam apenas como descrição no glossário.
-- Exceção: se o time solicitar explicitamente outro idioma para um contexto específico, prevalece a solicitação.
+Ao alterar um doc:
+1. Edita (ou cria uma decisão PDR/ADR/TDR, se for o caso) e atualiza `updated`.
+2. Registra no `changelog.md` do repo.
+3. Percorre os `children` (inclusive em outros repos) e marca os afetados como `status: review`.
+4. Revisa cada filho; confirma → `approved`, ou aposenta → `superseded`/`deprecated`.
 
-## 8. Changelog
+## 8. Idioma (documentação vs. código)
 
-- **Ordem cronológica reversa**: entradas mais recentes ficam **no topo**; as mais antigas ficam no final do arquivo.
-- **Versionamento semver** (`MAJOR.MINOR.PATCH`).
-- **Em desenvolvimento**: use o bloco `## [Não lançado]` para acumular mudanças ainda não publicadas.
-- **No commit/PR de release**: renomeie `[Não lançado]` para `## [DD-MM-YYYY - vMAJOR.MINOR.PATCH]` e crie um novo bloco `## [Não lançado]` vazio acima dele.
-- Estrutura esperada:
+- **Documentação é escrita em português.** Toda prosa dos docs (PROD, REQ, AYD, ROAD,
+  PDR, ADR, SPEC, PLAN, TDR) é em PT-BR.
+- **Código é escrito em inglês.** Logo, **nomes de entidades de domínio, campos, enums,
+  endpoints e eventos são definidos em inglês** — eles atravessam para o código.
+- Por isso o **GLO define o termo canônico em inglês** (o nome que vira código), com a
+  definição em português. Os demais docs **referenciam o termo canônico em inglês** ao
+  citar entidades/campos/contratos; a explicação ao redor segue em português.
+- Em contratos (AYD/ADR): payloads, campos e valores de enum em inglês
+  (ex.: `SubscriptionStatus: active | past_due | canceled`).
 
-```markdown
-## [Não lançado]
-- (próximas mudanças)
+## 9. Changelog (formato e política)
 
-## [04-06-2026 - v1.2.0]
-- Adicionado: suporte a X.
+Vale para o `changelog.md` de cada repo.
 
-## [01-06-2026 - v1.1.0]
-- Alterado: comportamento de Y.
-```
+- **Ordem cronológica invertida:** o mais **recente fica no topo**; o mais antigo, embaixo.
+  Toda alteração nova entra **acima** das anteriores.
+- **SemVer:** versões no formato `vMAJOR.MINOR.PATCH`.
+- **Trabalho não publicado fica em `## [Não lançado]`** (sempre o bloco do topo).
+  Enquanto não há commit/PR, todas as mudanças se acumulam aí — **sem data e sem versão**.
+- **No commit/PR**, o bloco `## [Não lançado]` é renomeado para
+  `## [dd-MM-yyyy - vX.Y.Z]` (ex.: `## [04-06-2026 - v0.0.1]`), e um novo
+  `## [Não lançado]` vazio é aberto acima dele para as próximas mudanças.
+- Dentro de um bloco, agrupe por categoria: **Adicionado / Alterado / Removido /
+  Decisões / Propagação**.
+- **Uma linha por PR:** cada entrada resume, em **uma única linha**, o que o PR entrega —
+  generalista e focada no que foi implementado, **sem detalhes de implementação nem do
+  framework de docs**; referencie o PR (ex.: `[PR#02](url)`).
 
 ## 10. Convenções de diagramas
+
 - Padrão: **Mermaid embutido no `.md`** (texto, versionável, editável pela IA, renderiza no
   GitHub). Não usar imagem/PNG/Figma como documento canônico.
 - Cada diagrama mora **no documento da camada que ele descreve**:
@@ -118,11 +131,3 @@ Auditoria dos docs vivos mora no **git + changelog**.
 - **Ciclo de vida:** o diagrama herda o do doc-pai (vivo em AYD; congela em ADR).
 - **Propagação:** ao alterar contrato ou fluxo num doc, **atualize o Mermaid correspondente
   na mesma edição**.
-
-## 9. Propagação de mudanças
-
-Ao alterar um doc:
-1. Edita (ou cria uma decisão PDR/ADR/TDR, se for o caso) e atualiza `updated`.
-2. Registra no `changelog.md` do repo.
-3. Percorre os `children` (inclusive em outros repos) e marca os afetados como `status: review`.
-4. Revisa cada filho; confirma → `approved`, ou aposenta → `superseded`/`deprecated`.

@@ -39,7 +39,7 @@ erros: [ ... ]
 ```
 
 ## Modelo de domínio afetado
-_Entidades/campos afetados (usar termos do GLO)._
+_Entidades/campos (usar termos do GLO)._
 
 ## Fluxo cross-repo
 _Sequência ponta a ponta envolvendo os repos (ex.: mobile → api → web)._
