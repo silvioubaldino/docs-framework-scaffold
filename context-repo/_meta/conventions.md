@@ -105,6 +105,20 @@ Auditoria dos docs vivos mora no **git + changelog**.
 - Alterado: comportamento de Y.
 ```
 
+## 10. Convenções de diagramas
+- Padrão: **Mermaid embutido no `.md`** (texto, versionável, editável pela IA, renderiza no
+  GitHub). Não usar imagem/PNG/Figma como documento canônico.
+- Cada diagrama mora **no documento da camada que ele descreve**:
+  - **Contexto/containers (C4 nível 1–2)** → no `ADR`: topologia de serviços e sistemas
+    externos (ex.: mobile → Firebase → API → DB). Escopo arquitetural, não por feature.
+  - **Sequência cross-repo** → no `AYD`: fluxo ponta a ponta de uma feature; torna o
+    contrato visual.
+- **Subordinação:** o diagrama ilustra; a fonte da verdade do contrato continua sendo o
+  texto/tabela do AYD ou ADR. Se divergirem, o texto vence.
+- **Ciclo de vida:** o diagrama herda o do doc-pai (vivo em AYD; congela em ADR).
+- **Propagação:** ao alterar contrato ou fluxo num doc, **atualize o Mermaid correspondente
+  na mesma edição**.
+
 ## 9. Propagação de mudanças
 
 Ao alterar um doc:

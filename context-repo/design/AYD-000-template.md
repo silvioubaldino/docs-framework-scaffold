@@ -39,10 +39,15 @@ erros: [ ... ]
 ```
 
 ## Modelo de domínio afetado
-_Entidades/campos (usar termos do GLO)._
+_Entidades/campos afetados (usar termos do GLO)._
 
 ## Fluxo cross-repo
 _Sequência ponta a ponta envolvendo os repos (ex.: mobile → api → web)._
+
+```mermaid
+sequenceDiagram
+
+```
 
 ## Decisões relacionadas
 _ADR/PDR citados (em `related`). Decisão nova de contrato → cria um ADR._
