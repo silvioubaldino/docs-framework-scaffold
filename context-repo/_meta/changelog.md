@@ -7,20 +7,19 @@ updated: 2025-01-01
 owner: <nome>
 ---
 
-# Changelog — Contexto
+# Changelog — Context
 
-Registro cronológico de mudanças nos docs compartilhados (PROD, REQ, AYD, ROAD, decisões).
-É aqui que mora a auditoria do "porquê" dos documentos **vivos**.
+All notable changes to the shared docs (PROD, REQ, AYD, ROAD, decisions) are documented
+here. This is where the audit trail of the "why" behind the **living** documents lives.
 
-## [Não lançado]
-- Documentação inicializada a partir do scaffold.
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this
+repo adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-<!--
-Ordem: mais recente no topo. No commit/PR de release, renomeie [Não lançado] para
-o formato abaixo e crie um novo [Não lançado] vazio acima.
+> Order: most recent on top; one line per PR, referencing it (see `conventions.md` §9).
+> While there is no commit/PR, everything stays under `## Unreleased` (no date/version).
+> On the commit/PR, `## Unreleased` becomes `## [dd-MM-yyyy - vX.Y.Z]` and a new empty
+> `## Unreleased` is opened above it.
 
-## [DD-MM-YYYY - vMAJOR.MINOR.PATCH]
-### Adicionado / Alterado / Removido
-### Decisões (PDR/ADR)
-### Propagação (docs marcados como review/superseded)
--->
+## Unreleased
+
+- Documentation initialized from the scaffold.

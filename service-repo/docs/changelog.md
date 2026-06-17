@@ -1,7 +1,7 @@
 ---
 id: CHANGELOG
 type: changelog
-title: Changelog deste serviço
+title: This service's changelog
 status: approved
 updated: 2025-01-01
 owner: <nome>
@@ -9,16 +9,17 @@ owner: <nome>
 
 # Changelog — <serviço>
 
-Mudanças deste repo (specs, implementação, decisões locais).
+All notable changes to this service (specs, implementation, local decisions) are
+documented here.
 
-## [Não lançado]
-- Repo inicializado a partir do scaffold.
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this
+project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-<!--
-Ordem: mais recente no topo. No commit/PR de release, renomeie [Não lançado] para
-o formato abaixo e crie um novo [Não lançado] vazio acima.
+> Order: most recent on top; one line per PR, referencing it (see
+> `docs/shared/_meta/conventions.md` §9). While there is no commit/PR, everything stays
+> under `## Unreleased` (no date/version). On the commit/PR, `## Unreleased` becomes
+> `## [dd-MM-yyyy - vX.Y.Z]` and a new empty `## Unreleased` is opened above it.
 
-## [DD-MM-YYYY - vMAJOR.MINOR.PATCH]
-### Adicionado / Alterado / Removido
-### Decisões (TDR)
--->
+## Unreleased
+
+- Repo initialized from the scaffold.
