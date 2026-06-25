@@ -1,10 +1,12 @@
-# <SERVIÇO> — Contexto do repo
+# <SERVIÇO> — Guia do repo
 
 > Copie este arquivo para a raiz de cada repo de serviço (api, web, mobile) e
-> preencha o nome e o PAPEL abaixo.
+> preencha as seções marcadas com **PREENCHA**.
 
-Repo de serviço do produto. Faz parte de um conjunto (api, web, mobile) que
-compartilha o mesmo contexto via o repo de contexto.
+Repo de serviço do produto (conjunto api · web · mobile), que compartilha o mesmo
+contexto via o repo de contexto. Este guia orienta o trabalho **no projeto** (não só nas
+docs): as seções abaixo dão ao Claude o contexto de engenharia; a última resume como o
+repo se conecta ao framework de docs.
 
 ## Papel deste repo  <!-- PREENCHA -->
 <!-- Ex. (api):    Dono dos contratos de API. Implemento o que o AYD define; mudança
@@ -13,30 +15,34 @@ compartilha o mesmo contexto via o repo de contexto.
                    divergir do AYD, sinalizo — não adapto silenciosamente. -->
 - 
 
-## Contexto compartilhado (READ-ONLY)
-Antes de trabalhar, sincronize: `docs/scripts/sync-context.sh`
-(popula `docs/shared/` a partir do repo de contexto).
-- @docs/shared/manifest.md — mapa do produto
-- @docs/shared/_meta/glossary.md — linguagem ubíqua (use SEMPRE estes termos)
-- @docs/shared/_meta/conventions.md — IDs, frontmatter, referências `ID@repo`
-
-> `docs/shared/` é um espelho **gitignored** do repo de contexto. **NÃO edite aqui.**
-> Mudou produto / REQ / AYD / contrato? Abra PR no repo de contexto.
-
-## O que mora neste repo
-- `docs/specs/` — **SPEC-NNN**: a parte deste repo de cada AYD. Frontmatter: `parents: [AYD-NNN@context]`.
-- `docs/plans/` — **PLAN-NNN**: passos de implementação de cada spec.
-- `docs/technical_decisions/` — **TDR-NNN**: decisões técnicas locais (sem efeito cross-repo).
-- `docs/conventions/` — padrões de engenharia deste repo (teste, estilo, git).
-- `docs/changelog.md` — mudanças deste serviço.
-
-## Fluxo de uma feature
-1. Leio o AYD em `docs/shared/design/` (papel deste repo + contratos).
-2. Crio/atualizo a SPEC local conforme o AYD (`parents: [AYD-NNN@context]`).
-3. Escrevo o PLAN e implemento. Testes seguem as convenções abaixo.
-4. Surgiu mudança de contrato → volto ao AYD no repo de contexto antes de prosseguir.
+## Especificidades do projeto  <!-- PREENCHA -->
+> Orientação de engenharia que **não** vem do framework de docs: o que o Claude precisa
+> para rodar, testar e escrever código neste repo.
+- **Stack / runtime:** _<linguagem, framework, versão>_
+- **Como rodar:** _<setup e comandos de dev>_
+- **Build / teste / lint:** _<comandos>_
+- **Arquitetura:** _<camadas, organização do `src/`, padrões — ou aponte para um TDR/ADR>_
+- **Integrações externas:** _<auth, pagamentos, observabilidade… o que este repo consome>_
 
 ## Convenções de engenharia (locais)
 @docs/conventions/testing.md
 @docs/conventions/code-style.md
 @docs/conventions/git.md
+<!-- Adicione convenções específicas do repo conforme a necessidade (ex.: openapi.md,
+     observability.md) e referencie-as aqui. -->
+
+## Framework de docs (resumo)
+Como este repo se liga ao contexto compartilhado. As **regras completas** estão nos
+arquivos linkados — aqui fica só o essencial.
+
+- **Contexto READ-ONLY:** rode `docs/scripts/sync-context.sh` para popular `docs/shared/`
+  (espelho **gitignored** do repo de contexto — **não edite aqui**). Mapa e regras:
+  @docs/shared/manifest.md · @docs/shared/_meta/glossary.md (use SEMPRE estes termos) ·
+  @docs/shared/_meta/conventions.md (IDs, frontmatter, refs `ID@repo`).
+- **O que mora neste repo:** `docs/specs/` (SPEC), `docs/plans/` (PLAN),
+  `docs/technical_decisions/` (TDR local), `docs/conventions/` (CONV), `docs/changelog.md`.
+- **Contrato só muda no contexto** (AYD/ADR). Se a `api`/backend divergir do AYD,
+  **sinalize** — não adapte localmente (ver `conventions.md` §5).
+- **Fluxo de uma feature:** leio o AYD em `docs/shared/design/` → crio/atualizo a SPEC
+  (`parents: [AYD-NNN@context]`) → escrevo o PLAN e implemento → mudou contrato? volto ao
+  AYD no repo de contexto antes de prosseguir.

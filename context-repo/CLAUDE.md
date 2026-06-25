@@ -21,9 +21,9 @@ que o espelham em `docs/shared/`.
 Specs, plans, decisões técnicas locais (TDR), convenções de código e changelog de cada serviço.
 
 ## Regra central (cross-repo)
-- **1 AYD → N SPECs**, uma por repo afetado. O AYD é a fonte dos contratos.
-- IDs globais; referência cross-repo `ID@repo` (ex.: `SPEC-012@api`).
-- **Contrato só muda aqui** (no AYD/ADR). Serviços implementam, não redefinem.
+**Contrato só muda aqui** (no AYD/ADR). Serviços implementam, não redefinem.
+O detalhamento (1 AYD → N SPECs, IDs globais `ID@repo`, regras de linkagem) é canônico em
+`_meta/conventions.md` §1, §3 e §5.
 
 ## Ciclo de vida
 - PROD / REQ / AYD / ROAD = vivos (edita in-place; registra em `_meta/changelog.md`).

@@ -3,7 +3,7 @@ id: META-conventions
 type: meta
 title: Convenções da documentação
 status: approved
-updated: 2026-06-17
+updated: 2026-06-25
 ---
 
 # Convenções da documentação
@@ -27,6 +27,7 @@ ID = `PREFIXO-NNN`, estável (nunca muda, mesmo se o arquivo for renomeado/movid
 | SPEC | Especificação (parte de um repo) | serviço: `docs/specs/` | local |
 | PLAN | Plano de implementação | serviço: `docs/plans/` | local |
 | TDR  | Technical Decision Record | serviço: `docs/technical_decisions/` | local |
+| CONV | Convenção de engenharia (teste, estilo, git…) | serviço: `docs/conventions/` | local |
 | GLO  | Glossário (linguagem ubíqua) | contexto: `_meta/glossary.md` | compartilhado |
 
 ## 2. Frontmatter padrão (obrigatório em todo doc)
@@ -89,48 +90,23 @@ Ao alterar um doc:
 
 ## 8. Idioma (documentação vs. código)
 
-- **Documentação é escrita em português.** Toda prosa dos docs (PROD, REQ, AYD, ROAD,
-  PDR, ADR, SPEC, PLAN, TDR) é em PT-BR.
-- **Código é escrito em inglês.** Logo, **nomes de entidades de domínio, campos, enums,
-  endpoints e eventos são definidos em inglês** — eles atravessam para o código.
-- Por isso o **GLO define o termo canônico em inglês** (o nome que vira código), com a
-  definição em português. Os demais docs **referenciam o termo canônico em inglês** ao
-  citar entidades/campos/contratos; a explicação ao redor segue em português.
-- Em contratos (AYD/ADR): payloads, campos e valores de enum em inglês
+- **Prosa dos docs → português.** Entidades, campos, enums, endpoints e eventos → **inglês**
+  (atravessam para o código). Em contratos (AYD/ADR), payloads/enums em inglês
   (ex.: `SubscriptionStatus: active | past_due | canceled`).
-- **Exceção — changelog:** o `changelog.md` é escrito em **inglês** (segue o padrão
-  Keep a Changelog, uma convenção consolidada em inglês). Ver §9.
+- O **GLO define o termo canônico em inglês**; os demais docs **referenciam** esse termo.
+- **Exceção:** o `changelog.md` é em **inglês** (padrão Keep a Changelog). Ver §9.
 
-## 9. Changelog (formato e política)
+## 9. Changelog
 
-Vale para o `changelog.md` de cada repo.
-
-- **Idioma: inglês.** O changelog é a exceção à regra de docs em PT-BR (§8): segue o padrão
-  [Keep a Changelog](https://keepachangelog.com) + [SemVer](https://semver.org), convenções
-  consolidadas em inglês.
-- **Ordem cronológica invertida:** o mais **recente fica no topo**; o mais antigo, embaixo.
-  Toda alteração nova entra **acima** das anteriores.
-- **SemVer:** versões no formato `vMAJOR.MINOR.PATCH`.
-- **Trabalho não publicado fica em `## Unreleased`** (sempre o bloco do topo).
-  Enquanto não há commit/PR, todas as mudanças se acumulam aí — **sem data e sem versão**.
-- **No commit/PR**, o bloco `## Unreleased` é renomeado para
-  `## [dd-MM-yyyy - vX.Y.Z]` (ex.: `## [04-06-2026 - v0.0.1]`), e um novo
-  `## Unreleased` vazio é aberto acima dele para as próximas mudanças.
-- **Uma linha por PR:** cada entrada resume, em **uma única linha**, o que o PR entrega —
-  generalista e focada no que foi implementado, **sem detalhes de implementação nem do
-  framework de docs**; referencie o PR (ex.: `[PR#02](url)`). Sem subdivisão por categoria.
+Inglês, [Keep a Changelog](https://keepachangelog.com) + [SemVer](https://semver.org),
+ordem invertida (recente no topo), **uma linha por PR**. A política completa (formato do
+bloco `Unreleased`, recorte por versão, o que a linha descreve) mora no **header do próprio
+`changelog.md`** de cada repo — é lá que se consulta ao escrever uma entrada.
 
 ## 10. Convenções de diagramas
 
-- Padrão: **Mermaid embutido no `.md`** (texto, versionável, editável pela IA, renderiza no
-  GitHub). Não usar imagem/PNG/Figma como documento canônico.
-- Cada diagrama mora **no documento da camada que ele descreve**:
-  - **Contexto/containers (C4 nível 1–2)** → no `ADR`: topologia de serviços e sistemas
-    externos (ex.: mobile → Firebase → API → DB). Escopo arquitetural, não por feature.
-  - **Sequência cross-repo** → no `AYD`: fluxo ponta a ponta de uma feature; torna o
-    contrato visual.
-- **Subordinação:** o diagrama ilustra; a fonte da verdade do contrato continua sendo o
-  texto/tabela do AYD ou ADR. Se divergirem, o texto vence.
-- **Ciclo de vida:** o diagrama herda o do doc-pai (vivo em AYD; congela em ADR).
-- **Propagação:** ao alterar contrato ou fluxo num doc, **atualize o Mermaid correspondente
-  na mesma edição**.
+- **Mermaid embutido no `.md`** (versionável, renderiza no GitHub) — nunca imagem/PNG como canônico.
+- Cada diagrama mora no doc da camada que descreve: **C4 nível 1–2 → ADR** (topologia);
+  **sequência cross-repo → AYD** (fluxo da feature).
+- O diagrama **ilustra**; se divergir do texto/tabela, **o texto vence**. Herda o ciclo de
+  vida do doc-pai e é atualizado **na mesma edição** que muda o contrato/fluxo.
