@@ -25,6 +25,7 @@ owner: <nome>
 | Roadmap      | ROAD-001 | Roadmap            | draft    | PROD-001 | — |
 | Decisão prod | PDR-001  | (exemplo)          | accepted | —        | — |
 | Decisão arq  | ADR-001  | (exemplo)          | accepted | —        | — |
+| Arquitetura  | ARCH     | Visão de arquitetura (C4 vivo) | approved | — | — |
 | Glossário    | GLO      | Linguagem ubíqua   | approved | —        | — |
 
 ## Ordem de leitura para a IA
@@ -39,5 +40,6 @@ PROD-001
    │                     ├─ SPEC-001@web ─ PLAN-001@web
    │                     └─ SPEC-001@mobile ─ PLAN-001@mobile
    └─ ROAD-001
-(PDR / ADR / GLO referenciados transversalmente por todos)
+(PDR / ADR / ARCH / GLO referenciados transversalmente por todos)
+ ARCH = topologia vigente (C4 vivo); atualizado quando entra/sai serviço ou integração.
 ```

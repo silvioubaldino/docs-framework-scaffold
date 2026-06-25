@@ -15,7 +15,9 @@ Definições canônicas dos termos do domínio. Toda a documentação e o códig
 mobile "falarem a mesma língua": um termo, uma definição.
 
 > Regra: adicione o termo aqui **antes** de usá-lo em outros docs ou no código.
-> Inclua sinônimos a evitar — é onde a ambiguidade costuma virar bug ou contrato confuso.
+> **Termo canônico em inglês** (vira código); definição em português. Inclua sinônimos a
+> evitar — é onde a ambiguidade costuma virar bug ou contrato confuso.
+> (ver `conventions.md` §8 — idioma: docs em PT, código/entidades em EN)
 
 | Termo | Definição | Sinônimos a evitar |
 |-------|-----------|--------------------|
