@@ -24,6 +24,7 @@ ID = `PREFIXO-NNN`, estável (nunca muda, mesmo se o arquivo for renomeado/movid
 | ROAD | Roadmap / planejamento | contexto: `roadmap.md` | compartilhado |
 | PDR  | Product Decision Record | contexto: `product_decisions/` | compartilhado |
 | ADR  | Architecture Decision Record | contexto: `architecture_decisions/` | compartilhado, cross-repo |
+| ARCH | Visão de arquitetura (C4 vivo: contexto + containers) | contexto: `architecture.md` | compartilhado, cross-repo |
 | SPEC | Especificação (parte de um repo) | serviço: `docs/specs/` | local |
 | PLAN | Plano de implementação | serviço: `docs/plans/` | local |
 | TDR  | Technical Decision Record | serviço: `docs/technical_decisions/` | local |
@@ -72,7 +73,7 @@ IDs são **globais no produto**. Para apontar um doc de outro repo, use `ID@repo
 
 | Tipo | Comportamento | Como mudar |
 |------|---------------|-----------|
-| PROD / REQ / AYD / ROAD | **Vivo** | Edita in-place, atualiza `updated`. |
+| PROD / REQ / AYD / ROAD / ARCH | **Vivo** | Edita in-place, atualiza `updated`. |
 | PDR / ADR / TDR | **Append-only** | Nunca reescreve. Decisão nova substitui a antiga via `superseded_by`. |
 | SPEC | **Congela ao aprovar** | Mutável em draft/review; vira contrato quando `approved`. |
 | PLAN | **Efêmero** | Documento de trabalho; após executado, é histórico. |
@@ -87,6 +88,8 @@ Ao alterar um doc:
 2. Registra no `changelog.md` do repo.
 3. Percorre os `children` (inclusive em outros repos) e marca os afetados como `status: review`.
 4. Revisa cada filho; confirma → `approved`, ou aposenta → `superseded`/`deprecated`.
+5. **Topologia:** se a mudança adiciona/remove/move um serviço ou integração externa,
+   atualiza `architecture.md` (vivo) **na mesma edição**.
 
 ## 8. Idioma (documentação vs. código)
 
@@ -106,7 +109,12 @@ bloco `Unreleased`, recorte por versão, o que a linha descreve) mora no **heade
 ## 10. Convenções de diagramas
 
 - **Mermaid embutido no `.md`** (versionável, renderiza no GitHub) — nunca imagem/PNG como canônico.
-- Cada diagrama mora no doc da camada que descreve: **C4 nível 1–2 → ADR** (topologia);
-  **sequência cross-repo → AYD** (fluxo da feature).
+- Cada diagrama mora no doc da camada que descreve:
+  - **Topologia vigente (C4 nível 1–2: contexto + containers) → `architecture.md` (vivo).**
+    Visão única e canônica de serviços, integrações externas e provedores. Atualizada sempre
+    que entra/sai um serviço ou integração (§7.5).
+  - **Sequência cross-repo → AYD** (fluxo ponta a ponta de uma feature).
+  - O **ADR** registra a *decisão* de topologia (o porquê) e pode embutir um **snapshot
+    congelado** para ilustrar a mudança; o estado vigente vive em `architecture.md`.
 - O diagrama **ilustra**; se divergir do texto/tabela, **o texto vence**. Herda o ciclo de
-  vida do doc-pai e é atualizado **na mesma edição** que muda o contrato/fluxo.
+  vida do doc-pai e é atualizado **na mesma edição** que muda o contrato/fluxo/topologia.

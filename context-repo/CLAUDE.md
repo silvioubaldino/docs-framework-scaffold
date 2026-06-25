@@ -16,6 +16,7 @@ which mirror it under `docs/shared/`.
 - **ROAD** (`roadmap.md`) — roadmap / planning
 - **PDR** (`product_decisions/`) — product decisions
 - **ADR** (`architecture_decisions/`) — cross-repo architecture decisions (contracts, protocols)
+- **ARCH** (`architecture.md`) — living high-level architecture (C4 context + container) with provider names; updated whenever a service/integration is added or removed
 
 ## What does NOT live here
 Each service's specs, plans, local technical decisions (TDR), code conventions, and changelog.

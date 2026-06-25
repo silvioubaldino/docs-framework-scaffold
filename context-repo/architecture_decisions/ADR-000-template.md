@@ -18,6 +18,8 @@ superseded_by: null
 > Append-only: nunca reescreva. Decisão nova = novo ADR que substitui este.
 > Use ADR para decisões que CRUZAM repos (contratos, protocolos, padrões compartilhados).
 > Decisão técnica interna de um só repo → use TDR no próprio serviço.
+> **Se esta decisão muda a topologia** (adiciona/remove/move um serviço ou integração),
+> atualize `architecture.md` (vivo) no mesmo PR — ver `_meta/conventions.md` §7.5 e §10.
 
 ## Contexto
 _Que força técnica exige uma decisão e quais repos ela afeta?_
