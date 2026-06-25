@@ -1,35 +1,35 @@
-# Contexto do Produto (FONTE ÚNICA)
+# Product Context (SINGLE SOURCE)
 
-Repositório canônico da **camada compartilhada** do produto.
-Consumido em modo **read-only** pelos repos de serviço (api, web, mobile),
-que o espelham em `docs/shared/`.
+Canonical repository for the product's **shared layer**.
+Consumed **read-only** by the service repos (api, web, mobile),
+which mirror it under `docs/shared/`.
 
-## Comece por
-- @manifest.md — mapa de todos os documentos
-- @_meta/conventions.md — IDs, frontmatter, ciclo de vida, propagação, refs `ID@repo`
-- @_meta/glossary.md — linguagem ubíqua (use SEMPRE estes termos)
+## Start here
+- @manifest.md — map of all documents
+- @_meta/conventions.md — IDs, frontmatter, lifecycle, propagation, `ID@repo` refs
+- @_meta/glossary.md — ubiquitous language (ALWAYS use these terms)
 
-## O que mora aqui (compartilhado)
-- **PROD** (`product.md`) — visão & estratégia
-- **REQ** (`requirements.md`) — requisitos do produto
-- **AYD** (`design/`) — Análise & Design por feature (cross-repo: repos afetados + contratos)
-- **ROAD** (`roadmap.md`) — roadmap / planejamento
-- **PDR** (`product_decisions/`) — decisões de produto
-- **ADR** (`architecture_decisions/`) — decisões de arquitetura cross-repo (contratos, protocolos)
+## What lives here (shared)
+- **PROD** (`product.md`) — vision & strategy
+- **REQ** (`requirements.md`) — product requirements
+- **AYD** (`design/`) — Analysis & Design per feature (cross-repo: affected repos + contracts)
+- **ROAD** (`roadmap.md`) — roadmap / planning
+- **PDR** (`product_decisions/`) — product decisions
+- **ADR** (`architecture_decisions/`) — cross-repo architecture decisions (contracts, protocols)
 
-## O que NÃO mora aqui
-Specs, plans, decisões técnicas locais (TDR), convenções de código e changelog de cada serviço.
+## What does NOT live here
+Each service's specs, plans, local technical decisions (TDR), code conventions, and changelog.
 
-## Regra central (cross-repo)
-**Contrato só muda aqui** (no AYD/ADR). Serviços implementam, não redefinem.
-O detalhamento (1 AYD → N SPECs, IDs globais `ID@repo`, regras de linkagem) é canônico em
-`_meta/conventions.md` §1, §3 e §5.
+## Core rule (cross-repo)
+**Contracts only change here** (in the AYD/ADR). Services implement; they do not redefine.
+The details (1 AYD → N SPECs, global `ID@repo` IDs, linkage rules) are canonical in
+`_meta/conventions.md` §1, §3 and §5.
 
-## Ciclo de vida
-- PROD / REQ / AYD / ROAD = vivos (edita in-place; registra em `_meta/changelog.md`).
-- PDR / ADR = append-only (decisão nova substitui a antiga via `superseded_by`).
-- Ao mudar algo, marque os `children` afetados (inclusive em outros repos) como `status: review`.
+## Lifecycle
+- PROD / REQ / AYD / ROAD = living (edit in-place; log in `_meta/changelog.md`).
+- PDR / ADR = append-only (a new decision supersedes the old one via `superseded_by`).
+- When you change something, mark the affected `children` (including in other repos) as `status: review`.
 
-## Outras ferramentas
-- Claude Projects: conecte este repo via integração GitHub e use **Sync**.
-- NotebookLM / Gemini Gems: rode `scripts/bundle.sh` → `CONTEXT.md` para upload.
+## Other tools
+- Claude Projects: connect this repo via the GitHub integration and use **Sync**.
+- NotebookLM / Gemini Gems: run `scripts/bundle.sh` → `CONTEXT.md` for upload.
