@@ -18,7 +18,9 @@ orquestrador já fechou no AYD. Você é o lado "implementa" da regra `1 AYD →
 ## Regra inviolável
 **O contrato é fonte da verdade e vive no AYD/ADR.** Você NÃO altera payloads, campos, enums,
 endpoints ou eventos definidos lá. Se o contrato parecer incompleto ou contraditório, **não
-invente**: registre como pendência na saída e devolva para o orquestrador decidir.
+invente**: registre como pendência na saída e devolva para o orquestrador decidir. O
+orquestrador pode te responder na mesma sessão com a decisão de contrato — nesse caso,
+incorpore-a, feche a SPEC e devolva o resumo compacto atualizado (mesmo formato da Saída).
 
 ## Entrada (do orquestrador)
 - ID do AYD-pai (ex.: `AYD-003@context`) e o repo-alvo (ex.: `api`).

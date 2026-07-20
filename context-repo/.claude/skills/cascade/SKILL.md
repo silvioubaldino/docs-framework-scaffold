@@ -69,6 +69,16 @@ Nunca roteie tudo para o modelo forte — é o jeito mais rápido de tornar o fa
      `<repo>/docs/specs/`. Senão, emita um **brief de handoff** em `_handoff/SPEC-NNN@<repo>.md`.
    Direções são independentes ⇒ rode os N em paralelo, no MESMO bloco de tool calls.
 
+   **Ledger de fan-out (antes de despachar):** escreva `_handoff/.ledger-<AYD>.md` com uma
+   linha por repo: `repo | tarefa | status | resultado (1 linha)`. Atualize conforme os
+   retornos chegam e **apague na reconciliação**. Se a sessão cair no meio, o próximo
+   orquestrador retoma do ledger em vez de re-despachar tudo.
+
+   **Pendência de contrato no retorno?** NÃO re-despache um subagente novo: responda ao
+   MESMO `spec-author` (via SendMessage, contexto intacto) com a decisão de contrato — ele
+   fecha a SPEC por uma fração do custo de um despacho do zero. Se a pendência mudar o
+   contrato em si, primeiro edite o AYD (passo 1), depois responda.
+
 4. RECONCILIAÇÃO (você, single-writer)
    Só VOCÊ escreve os arquivos-cola compartilhados — nunca um subagente, pra evitar conflito:
    - `changelog.md` (1 linha no `## Unreleased`, inglês, generalista — política completa no
@@ -111,6 +121,8 @@ Lembre: contrato **só muda aqui** (no AYD/ADR). O serviço implementa, não red
 - [ ] Subagentes retornaram resumo compacto (não transcript)?
 - [ ] Só eu escrevi changelog/glossary (single-writer)?
 - [ ] Reusei contexto (forks) quando o trabalho era same-context?
+- [ ] Ledger de fan-out criado antes do despacho e apagado na reconciliação?
+- [ ] Pendências resolvidas respondendo ao MESMO subagente (não re-despacho do zero)?
 
 ## 7. Checklist de saída
 
