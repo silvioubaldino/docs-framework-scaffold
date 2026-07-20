@@ -77,6 +77,19 @@ service-repo/     → copie para CADA repo de serviço (api, web, mobile)
 - **Claude Projects:** conecte o repo de contexto via integração GitHub (botão **Sync**).
 - **NotebookLM / Gemini Gems:** rode `scripts/bundle.sh` no repo de contexto → suba o `CONTEXT.md`.
 
+## Atualizar o framework
+Um projeto já instalado atualiza **só os arquivos de framework** (engine: `CLAUDE.md`,
+`.claude/`, `scripts/`, templates) para uma versão nova do scaffold — **sem tocar** no seu
+conteúdo de produto (REQ/AYD/SPEC reais). O que é atualizável é declarado no
+`.framework-version` da raiz (campo `files:`); o comando busca a tag-alvo e aplica o diff só nesses paths.
+
+- **Preview:** `scripts/update-framework.sh --to <tag> --dry-run` (contexto) ou
+  `docs/scripts/update-framework.sh --to <tag> --dry-run` (serviço) — mostra o diff, não escreve nada.
+- **Aplicar:** o mesmo comando sem `--dry-run` — atualiza os arquivos e grava `version`/`installed`.
+- **Conflito:** um arquivo de framework editado localmente e também mudado no upstream **não** é
+  sobrescrito — a versão nova vai para `<arquivo>.framework-new` e o comando para para você resolver à mão.
+- **Sanidade:** `--check` garante que `files:` nunca casa conteúdo de produto (bom para CI).
+
 ## Regras de ouro
 - Contrato muda **só** no AYD/ADR (repo de contexto). Serviços implementam, não redefinem.
 - `docs/shared/` é espelho read-only — nunca edite ali.

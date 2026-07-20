@@ -2,8 +2,8 @@
 id: SPEC-003
 type: spec
 title: Versionamento e atualização do framework
-status: draft               # draft → review → approved (congela) — ver CLAUDE.md, Lifecycle
-updated: 2026-07-19
+status: review              # draft → review → approved (congela) — ver CLAUDE.md, Lifecycle
+updated: 2026-07-20
 parents: [AYD-002]
 children: []
 related: []
