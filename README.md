@@ -13,8 +13,8 @@ de verdade. Os arquivos `*-example.*` são demonstrações — apague ao começa
 > Um produto, vários repos, **uma língua só** (glossário + convenções compartilhados).
 
 ## Como as peças se conectam
-- Um **repo de contexto** guarda a camada compartilhada (visão, requisitos, design cross-repo,
-  roadmap, decisões de produto/arquitetura). É a **fonte única da verdade**.
+- Um **repo de contexto** guarda a camada compartilhada (requisitos + glossário, design
+  cross-repo, roadmap, arquitetura, decisões de produto/arquitetura). É a **fonte única da verdade**.
 - Cada **repo de serviço** (api, web, mobile) espelha o contexto em `docs/shared/` (read-only,
   gitignored) e guarda só o seu: specs, plans, decisões técnicas, convenções, changelog.
 - **1 AYD (design cross-repo) → N SPECs** (uma por repo). Contratos mudam **só no repo de contexto**.
@@ -23,16 +23,16 @@ de verdade. Os arquivos `*-example.*` são demonstrações — apague ao começa
 ## Tipos de documento
 | Prefixo | Documento | Onde | Vivo/Imutável |
 |---------|-----------|------|---------------|
-| PROD | Visão & estratégia | contexto | vivo |
-| REQ  | Requisitos | contexto | vivo |
+| REQ  | Requisitos (+ visão em uma frase) | contexto `requirements.md` | vivo |
+| GLO  | Glossário | contexto `requirements.md` (seção Glossário) | vivo |
 | AYD  | Análise & Design (cross-repo) | contexto `design/` | vivo |
 | ROAD | Roadmap | contexto | vivo |
+| ARCH | Visão de arquitetura (C4 vivo) | contexto `architecture.md` | vivo |
 | PDR  | Decisão de produto | contexto `product_decisions/` | append-only |
 | ADR  | Decisão de arquitetura (cross-repo) | contexto `architecture_decisions/` | append-only |
 | SPEC | Especificação (parte de um repo) | serviço `docs/specs/` | congela ao aprovar |
 | PLAN | Plano de implementação | serviço `docs/plans/` | efêmero |
 | TDR  | Decisão técnica local | serviço `docs/technical_decisions/` | append-only |
-| GLO  | Glossário | contexto `_meta/glossary.md` | vivo |
 
 ## O que tem neste scaffolding
 ```
@@ -44,8 +44,10 @@ service-repo/     → copie para CADA repo de serviço (api, web, mobile)
 
 ### 1. Repo de contexto (uma vez por produto)
 1. Copie o conteúdo de `context-repo/` para um repo novo (ex.: `meuproduto-context`).
-2. Preencha `product.md`, `requirements.md`, `roadmap.md` e o `_meta/glossary.md`.
-3. Mantenha `manifest.md` atualizado ao criar/aposentar docs.
+2. Preencha `requirements.md` (visão em uma frase + requisitos + glossário), `roadmap.md`
+   e `architecture.md`.
+3. As regras do framework (IDs, frontmatter, ciclo de vida) vivem no `CLAUDE.md` do repo;
+   as regras de cada tipo de doc, no header do próprio arquivo/template.
 4. Apague os arquivos `*-example.*`.
 
 ### 2. Cada repo de serviço (api, web, mobile)
