@@ -4,7 +4,6 @@ type: convention
 title: Convenções de Git
 status: approved
 updated: 2025-01-01
-owner: <nome>
 ---
 
 # Convenções de Git (deste repo)

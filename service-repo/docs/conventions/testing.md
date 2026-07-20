@@ -4,7 +4,6 @@ type: convention
 title: Padrões de teste
 status: approved
 updated: 2025-01-01
-owner: <nome>
 ---
 
 # Padrões de teste (deste repo)
