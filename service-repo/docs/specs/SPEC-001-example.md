@@ -3,14 +3,10 @@ id: SPEC-001
 type: spec
 title: Upload de mídia — API (EXEMPLO)
 status: draft
-created: 2025-01-01
 updated: 2025-01-01
-owner: <nome>
 parents: [AYD-001@context]
 children: [PLAN-001]
 related: [GLO]
-tags: [media]
-superseded_by: null
 ---
 
 # Spec: Upload de mídia — API (EXEMPLO)

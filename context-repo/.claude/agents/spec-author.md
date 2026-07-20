@@ -32,14 +32,16 @@ invente**: registre como pendência na saída e devolva para o orquestrador deci
      inicializar o framework) → escreva `<repo>/docs/specs/SPEC-NNN-<slug>.md` e adicione
      1 linha no changelog **daquele** repo (não o de contexto).
    - Ausente → escreva o brief em `_handoff/SPEC-NNN@<repo>.md` neste repo.
-3. Frontmatter obrigatório (conventions §2): `id: SPEC-NNN`, `type: spec`, `status: draft`,
-   `parents: [AYD-NNN@context]`, `affects`/`related` conforme o caso. SPEC sempre tem um AYD em
-   `parents`.
+3. Frontmatter obrigatório (ver `CLAUDE.md` do repo de contexto): `id: SPEC-NNN`, `type: spec`,
+   `status: draft`, `parents: [AYD-NNN@context]`, `related` conforme o caso. SPEC sempre tem um
+   AYD em `parents`.
 4. Conteúdo: o que ESTE repo faz para cumprir o contrato — endpoints/handlers, modelos,
-   validações, casos de erro do contrato. Em nível de spec, não de implementação.
-5. **Idioma (conventions §8):** prosa em **PT-BR**; entidades/campos/enums/endpoints/eventos em
-   **inglês** (usam os termos canônicos do GLO). Changelog em inglês.
-6. **Não** edite `manifest.md`, `_meta/changelog.md` nem `_meta/glossary.md` do repo de
+   validações, casos de erro do contrato. Em nível de spec, não de implementação (o COMO
+   detalhado vai no PLAN do serviço, depois).
+5. **Idioma:** prosa em **PT-BR**; entidades/campos/enums/endpoints/eventos em **inglês**
+   (usam os termos canônicos do GLO — nota de idioma no Glossário de `requirements.md`).
+   Changelog em inglês.
+6. **Não** edite `changelog.md` nem a seção Glossário de `requirements.md` do repo de
    contexto — esses são single-writer do orquestrador. Reporte os links a criar e ele fecha.
 
 ## Saída (resumo compacto — não devolva o arquivo inteiro)

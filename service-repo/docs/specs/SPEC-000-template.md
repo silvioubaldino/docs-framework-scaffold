@@ -2,15 +2,11 @@
 id: SPEC-NNN
 type: spec
 title: 
-status: draft
-created: 2025-01-01
+status: draft               # draft → review → approved (congela) — ver docs/shared/CLAUDE.md, Lifecycle
 updated: 2025-01-01
-owner: <nome>
 parents: [AYD-NNN@context]   # obrigatório: o AYD que originou esta spec
 children: []                # PLAN correspondente
 related: [GLO]              # ADR/TDR relevantes
-tags: []
-superseded_by: null
 ---
 
 # Spec: <feature> (parte deste repo)

@@ -16,11 +16,12 @@ Você é um agente **read-only**. Nunca edita, cria ou move arquivos. Seu produt
 compacto**, não um transcript.
 
 ## Entrada
-O orquestrador te dá: um ID/arquivo alterado (ex.: `AYD-003` ou `_meta/glossary.md`) e o que
+O orquestrador te dá: um ID/arquivo alterado (ex.: `AYD-003` ou `requirements.md`) e o que
 mudou em uma frase.
 
 ## O que fazer
-1. Leia o frontmatter do doc alterado: `children`, `parents`, `related`, `affects`.
+1. Leia o frontmatter do doc alterado: `children`, `parents`, `related`. Para AYD, veja
+   também a tabela "Repos afetados e papéis" no corpo do doc.
 2. Resolva os links cross-repo `ID@repo`. Procure os repos-irmãos nos caminhos configurados
    para este produto (ajuste ao inicializar o framework). Se ausentes, marque o destino como
    `(externo, não no workspace)`.

@@ -3,14 +3,10 @@ id: PLAN-NNN
 type: plan
 title: 
 status: draft
-created: 2025-01-01
 updated: 2025-01-01
-owner: <nome>
 parents: [SPEC-NNN]         # a spec que este plano implementa
 children: []
 related: []
-tags: []
-superseded_by: null
 ---
 
 # Plano de Implementação: <feature>

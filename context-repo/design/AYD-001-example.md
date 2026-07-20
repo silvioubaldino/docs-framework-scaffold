@@ -3,15 +3,10 @@ id: AYD-001
 type: design
 title: Upload de mídia (EXEMPLO)
 status: draft
-created: 2025-01-01
 updated: 2025-01-01
-owner: <nome>
-affects: [api, web, mobile]
 parents: [REQ-001]
 children: [SPEC-001@api, SPEC-001@web, SPEC-001@mobile]
 related: [ADR-001, GLO]
-tags: [media]
-superseded_by: null
 ---
 
 # AYD-001: Upload de mídia (EXEMPLO)

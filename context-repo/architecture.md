@@ -3,14 +3,9 @@ id: ARCH
 type: architecture
 title: Visão de arquitetura (C4 vivo)
 status: approved
-created: 2025-01-01
 updated: 2025-01-01
-owner: <nome>
-affects: [api, web, mobile]
 parents: []
 related: [ADR-001]
-tags: [architecture, c4]
-superseded_by: null
 ---
 
 # Visão de arquitetura (C4 — contexto + containers)
@@ -19,13 +14,14 @@ superseded_by: null
 > como se conectam e em que provedores rodam. É a foto do "como está hoje", não o histórico
 > de decisões — o **porquê** de cada escolha mora nos `ADR`.
 >
-> **Atualize na mesma edição** que adiciona/remove um serviço ou integração externa
-> (ver `_meta/conventions.md` §7 e §10). Ao criar um `ADR` que mude a topologia, atualize o
-> diagrama abaixo no mesmo PR.
+> **Atualize na mesma edição** que adiciona/remove um serviço ou integração externa. Ao
+> criar um `ADR` que mude a topologia, atualize o diagrama abaixo no mesmo PR — se o ADR
+> divergir deste documento, **este documento vence** (é o estado vigente; o ADR é o histórico
+> do porquê).
 >
 > Nomes de serviços/sistemas em **inglês** (atravessam para o código); provedores entre
-> parênteses. Diagrama em **Mermaid `flowchart`** (renderiza no GitHub de forma confiável)
-> expressando um C4 nível 1–2.
+> parênteses. Diagrama em **Mermaid `flowchart`** (renderiza no GitHub de forma confiável,
+> nunca uma imagem/PNG como fonte canônica) expressando um C4 nível 1–2.
 
 ## Diagrama (container view)
 
@@ -59,5 +55,5 @@ flowchart TB
 | **Database** | Persistência do domínio | Neon (Postgres) |
 
 > Substitua os containers/provedores acima pela topologia real do seu produto. Mantenha a
-> tabela e o diagrama em sincronia — se divergirem, **a tabela vence** (texto sobre desenho,
-> `conventions.md` §10).
+> tabela e o diagrama em sincronia — se divergirem, **a tabela vence** (o diagrama ilustra;
+> o texto é o canônico).

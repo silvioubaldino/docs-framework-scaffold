@@ -3,15 +3,10 @@ id: AYD-NNN
 type: design
 title: 
 status: draft
-created: 2025-01-01
 updated: 2025-01-01
-owner: <nome>
-affects: []                 # repos impactados, ex.: [api, web, mobile]
 parents: [REQ-NNN]
 children: []               # SPECs geradas, ex.: [SPEC-NNN@api, SPEC-NNN@web]
 related: [GLO]
-tags: []
-superseded_by: null
 ---
 
 # AYD-NNN: <feature>

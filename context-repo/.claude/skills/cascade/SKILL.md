@@ -1,12 +1,12 @@
 ---
 name: cascade
 description: >-
-  Orquestra a cascata spec-driven do produto (PROD → REQ → AYD → SPEC@repo → PLAN@repo)
-  e as decisões (ADR/PDR). Use quando um pedido mexe na visão/requisitos, no design cross-repo
+  Orquestra a cascata spec-driven do produto (REQ → AYD → SPEC@repo → PLAN@repo)
+  e as decisões (ADR/PDR). Use quando um pedido mexe nos requisitos, no design cross-repo
   e contratos (AYD), em decisões de arquitetura/produto (ADR/PDR), ou quando a mudança se
   ramifica para múltiplos repos (api/web/mobile). A skill faz triagem de esforço, roteia entre
   agente único e orquestrador+subagentes, propaga `status: review` para os children afetados e
-  mantém manifest/changelog/glossary em sincronia. Não use para edição trivial de um único doc
+  mantém changelog/glossary em sincronia. Não use para edição trivial de um único doc
   (faça inline) nem para padrões de código local (isso vive em cada serviço).
 ---
 
@@ -17,8 +17,10 @@ gastando o mínimo de tokens necessário para o nível de mudança — nunca mai
 subagentes custa ~15x mais tokens que uma sessão única; só vale quando as direções são
 **independentes** (tipicamente: cross-repo) e a tarefa "vale os tokens".
 
-Antes de agir, leia (uma vez) `_meta/conventions.md` e `manifest.md`. Eles são o contrato do
-grafo. Em caso de divergência entre esta skill e as conventions, **as conventions vencem**.
+Antes de agir, leia (uma vez) `CLAUDE.md` deste repo — IDs, frontmatter, ciclo de vida e
+propagação estão lá. Em caso de divergência entre esta skill e o `CLAUDE.md`, **o `CLAUDE.md`
+vence**. Não há `manifest.md`/`conventions.md` centralizados: cada tipo de doc explica
+suas próprias regras (ex.: `changelog.md` traz a política de changelog no próprio header).
 
 ## 1. Gate de triagem (sempre primeiro, barato, inline)
 
@@ -29,7 +31,7 @@ Classifique o pedido em um nível **antes** de gastar qualquer subagente:
 | **0 — Trivial** | typo, wording, `updated`, um único doc vivo | Edita inline. | ZERO |
 | **1 — Decisão** | novo ADR/PDR (append-only) ou supersede | 1 passe focado você mesmo. | ZERO (opcional `doc-explorer` p/ achar afetados) |
 | **2 — AYD local** | AYD novo/alterado que afeta **1 repo** | Você redige o AYD + contrato; 1 `spec-author` p/ a SPEC. | 0–1 |
-| **3 — AYD cross-repo** | AYD afeta **N repos** (`affects: [api, web, mobile]`) | Orquestração completa (§3). | fan-out N |
+| **3 — AYD cross-repo** | AYD afeta **N repos** (tabela "Repos afetados e papéis" do AYD lista mais de um) | Orquestração completa (§3). | fan-out N |
 
 Regra de ouro (heurística SDD): *se você ficaria irritado caso o agente interpretasse o
 contrato diferente do que você quis, escreva o AYD com cuidado e propague; se daria pra
@@ -60,22 +62,23 @@ Nunca roteie tudo para o modelo forte — é o jeito mais rápido de tornar o fa
    parents/children assimétricos, termos fora do GLO). Retorno = tabela compacta.
 
 3. FAN-OUT (N× spec-author, EM PARALELO — um por repo afetado)
-   Para CADA repo em `affects`, despache um spec-author com: o ID do AYD, o trecho de
-   contrato que aquele repo implementa, o papel daquele repo, e o caminho de destino.
+   Para CADA repo na tabela "Repos afetados e papéis" do AYD, despache um spec-author com:
+   o ID do AYD, o trecho de contrato que aquele repo implementa, o papel daquele repo, e o
+   caminho de destino.
    - Multi-repo: se o repo-irmão existir no workspace (ver §5), escreva a SPEC direto em
      `<repo>/docs/specs/`. Senão, emita um **brief de handoff** em `_handoff/SPEC-NNN@<repo>.md`.
    Direções são independentes ⇒ rode os N em paralelo, no MESMO bloco de tool calls.
 
 4. RECONCILIAÇÃO (você, single-writer)
    Só VOCÊ escreve os arquivos-cola compartilhados — nunca um subagente, pra evitar conflito:
-   - `manifest.md` (linha na tabela + diagrama de relações)
-   - `_meta/changelog.md` (§9: 1 linha no `## Unreleased`, inglês, generalista)
-   - `_meta/glossary.md` (se houve termo novo — adicione ANTES de usar em qualquer doc)
+   - `changelog.md` (1 linha no `## Unreleased`, inglês, generalista — política completa no
+     header do próprio arquivo)
+   - `requirements.md` — seção Glossário (se houve termo novo — adicione ANTES de usar em qualquer doc)
    - frontmatter `children`/`parents` nos dois lados de cada link.
 
 5. PROPAGAÇÃO
-   Marque cada child afetado como `status: review` (passo §7 das conventions). Confirme os que
-   batem → `approved`; aposente os obsoletos → `superseded`/`deprecated`.
+   Marque cada child afetado como `status: review` (ver CLAUDE.md, seção Lifecycle). Confirme
+   os que batem → `approved`; aposente os obsoletos → `superseded`/`deprecated`.
 ```
 
 Para nível 1 e 2, execute só os passos relevantes (sem fan-out paralelo).
@@ -106,14 +109,17 @@ Lembre: contrato **só muda aqui** (no AYD/ADR). O serviço implementa, não red
 - [ ] Fan-out só onde as direções são realmente independentes (cross-repo)?
 - [ ] Modelo barato nos subagentes; forte só no orquestrador?
 - [ ] Subagentes retornaram resumo compacto (não transcript)?
-- [ ] Só eu escrevi manifest/changelog/glossary (single-writer)?
+- [ ] Só eu escrevi changelog/glossary (single-writer)?
 - [ ] Reusei contexto (forks) quando o trabalho era same-context?
 
 ## 7. Checklist de saída
 
-- [ ] AYD/decisão com frontmatter completo e `affects`/`parents`/`children` corretos.
-- [ ] Contratos em inglês (payloads/campos/enums); prosa em PT-BR (conventions §8).
+- [ ] AYD/decisão com frontmatter completo, `parents`/`children` corretos, e (se AYD) a
+      tabela "Repos afetados e papéis" preenchida.
+- [ ] Contratos em inglês (payloads/campos/enums); prosa em PT-BR (nota de idioma no
+      Glossário de `requirements.md`).
 - [ ] Termos novos no GLO antes de uso.
 - [ ] Children afetados marcados `review` e percorridos.
-- [ ] `manifest.md` (tabela + diagrama) e `changelog.md` atualizados.
-- [ ] Diagramas mermaid atualizados na mesma edição do contrato (conventions §10).
+- [ ] `changelog.md` atualizado.
+- [ ] Diagramas mermaid atualizados na mesma edição do contrato; se mudou topologia,
+      `architecture.md` também, no mesmo PR.

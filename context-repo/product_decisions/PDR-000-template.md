@@ -3,12 +3,9 @@ id: PDR-NNN
 type: pdr
 title: 
 status: draft               # proposed → accepted → superseded
-created: 2025-01-01
 updated: 2025-01-01
-owner: <nome>
 parents: []
-related: []                 # PROD/REQ relacionados
-tags: []
+related: []                 # REQ relacionados
 superseded_by: null
 ---
 
