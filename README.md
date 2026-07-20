@@ -40,6 +40,13 @@ context-repo/     → vira o seu REPO DE CONTEXTO (1 por produto)
 service-repo/     → copie para CADA repo de serviço (api, web, mobile)
 ```
 
+## Pré-requisitos
+- **Python 3** (só biblioteca padrão, sem `pip install`) para rodar `scripts/validate.py`
+  (validador de integridade do grafo — ver `context-repo/_framework/SPEC-001-graph-validator.md`),
+  presente em ambos os templates. Já vem instalado no macOS e na maioria das distros Linux e
+  dos runners de CI padrão; em Windows sem WSL, confirme que o comando `python3` existe no PATH
+  (senão ajuste o shebang ou invoque como `python scripts/validate.py`).
+
 ## Como configurar
 
 ### 1. Repo de contexto (uma vez por produto)
@@ -49,6 +56,8 @@ service-repo/     → copie para CADA repo de serviço (api, web, mobile)
 3. As regras do framework (IDs, frontmatter, ciclo de vida) vivem no `CLAUDE.md` do repo;
    as regras de cada tipo de doc, no header do próprio arquivo/template.
 4. Apague os arquivos `*-example.*`.
+5. (Recomendado) rode `scripts/validate.py` antes de abrir PR — valida o grafo de docs
+   (frontmatter, simetria parents/children, refs quebradas); requer Python 3 (ver Pré-requisitos).
 
 ### 2. Cada repo de serviço (api, web, mobile)
 1. Copie o conteúdo de `service-repo/` para a raiz do repo do serviço
@@ -60,6 +69,8 @@ service-repo/     → copie para CADA repo de serviço (api, web, mobile)
 5. (Recomendado) adicione um atalho no seu gerenciador de pacotes, ex.:
    `"sync:context": "docs/scripts/sync-context.sh"`.
 6. Apague os arquivos `*-example.*` e preencha `docs/conventions/`.
+7. (Recomendado) rode `docs/scripts/validate.py` antes de abrir PR — mesmo validador do
+   repo de contexto, escopado a este repo; requer Python 3 (ver Pré-requisitos).
 
 ### 3. Uso em outras ferramentas
 - **Claude Code:** já funciona — os `@imports` do `CLAUDE.md` carregam contexto + convenções.
