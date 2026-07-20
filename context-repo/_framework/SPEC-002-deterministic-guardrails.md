@@ -2,8 +2,8 @@
 id: SPEC-002
 type: spec
 title: Guardrails determinísticos (hooks PreToolUse)
-status: draft               # draft → review → approved (congela) — ver CLAUDE.md, Lifecycle
-updated: 2026-07-19
+status: review              # draft → review → approved (congela) — ver CLAUDE.md, Lifecycle
+updated: 2026-07-20
 parents: [AYD-002]
 children: []
 related: [SPEC-001]         # reusa os checks do validador

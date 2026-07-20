@@ -12,8 +12,9 @@ Contract C1 (AYD-002): scripts/validate.py [--repo-root PATH]
 """
 import argparse
 import os
-import re
 import sys
+
+from frontmatter import parse_frontmatter
 
 REQUIRED_FIELDS = ["id", "type", "title", "status", "updated"]
 VALID_STATUSES = {"draft", "review", "approved", "superseded", "deprecated"}
@@ -80,18 +81,6 @@ def discover_files(repo_root):
     return sorted(found)
 
 
-def strip_comment(line):
-    depth = 0
-    for i, c in enumerate(line):
-        if c == "[":
-            depth += 1
-        elif c == "]":
-            depth -= 1
-        elif c == "#" and depth == 0 and (i == 0 or line[i - 1] in " \t"):
-            return line[:i]
-    return line
-
-
 def parse_list_value(raw):
     raw = raw.strip()
     if not raw or raw in ("[]", "null"):
@@ -100,38 +89,6 @@ def parse_list_value(raw):
         raw = raw[1:-1]
     items = [item.strip() for item in raw.split(",")]
     return [item for item in items if item]
-
-
-def parse_frontmatter(lines):
-    """Returns (fields, field_lines, malformed) with 1-indexed field_lines, or
-    (None, None, True) when no/broken frontmatter block is present."""
-    if not lines or lines[0].strip() != "---":
-        return None, None, False
-    end_idx = None
-    for i in range(1, len(lines)):
-        if lines[i].strip() == "---":
-            end_idx = i
-            break
-    if end_idx is None:
-        return None, None, True
-
-    fields = {}
-    field_lines = {}
-    try:
-        for offset, raw in enumerate(lines[1:end_idx]):
-            lineno = offset + 2
-            stripped = strip_comment(raw)
-            if not stripped.strip():
-                continue
-            m = re.match(r"^([A-Za-z_][A-Za-z0-9_]*):\s*(.*)$", stripped)
-            if not m:
-                continue
-            key, val = m.group(1), m.group(2).strip()
-            fields[key] = val
-            field_lines[key] = lineno
-    except Exception:
-        return None, None, True
-    return fields, field_lines, False
 
 
 def split_ref(ref):
