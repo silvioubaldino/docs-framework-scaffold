@@ -3,12 +3,9 @@ id: TDR-001
 type: tdr
 title: Validação com biblioteca de schema (EXEMPLO)
 status: accepted
-created: 2025-01-01
 updated: 2025-01-01
-owner: <nome>
 parents: []
 related: [PLAN-001]
-tags: [validacao]
 superseded_by: null
 ---
 

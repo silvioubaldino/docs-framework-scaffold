@@ -3,12 +3,9 @@ id: PDR-001
 type: pdr
 title: MVP só com web e api (EXEMPLO)
 status: accepted
-created: 2025-01-01
 updated: 2025-01-01
-owner: <nome>
 parents: []
-related: [PROD-001, ROAD-001]
-tags: [escopo]
+related: [REQ-001, ROAD-001]
 superseded_by: null
 ---
 

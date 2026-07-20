@@ -3,13 +3,9 @@ id: ADR-001
 type: adr
 title: Upload via URL assinada (EXEMPLO)
 status: accepted
-created: 2025-01-01
 updated: 2025-01-01
-owner: <nome>
-affects: [api, web, mobile]
 parents: []
 related: [AYD-001]
-tags: [storage]
 superseded_by: null
 ---
 

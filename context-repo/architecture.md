@@ -3,14 +3,9 @@ id: ARCH
 type: architecture
 title: Visão de arquitetura (C4 vivo)
 status: approved
-created: 2025-01-01
 updated: 2025-01-01
-owner: <nome>
-affects: [api, web, mobile]
 parents: []
 related: [ADR-001]
-tags: [architecture, c4]
-superseded_by: null
 ---
 
 # Visão de arquitetura (C4 — contexto + containers)

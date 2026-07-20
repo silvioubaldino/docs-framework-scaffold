@@ -3,14 +3,10 @@ id: ROAD-001
 type: roadmap
 title: Roadmap
 status: draft
-created: 2025-01-01
 updated: 2025-01-01
-owner: <nome>
-parents: [PROD-001]
+parents: []
 children: []
-related: []
-tags: []
-superseded_by: null
+related: [REQ-001]
 ---
 
 # Roadmap & Planejamento

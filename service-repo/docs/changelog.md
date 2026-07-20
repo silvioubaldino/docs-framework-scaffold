@@ -4,7 +4,6 @@ type: changelog
 title: This service's changelog
 status: approved
 updated: 2025-01-01
-owner: <nome>
 ---
 
 # Changelog — <serviço>

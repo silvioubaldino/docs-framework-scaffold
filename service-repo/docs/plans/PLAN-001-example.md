@@ -3,14 +3,10 @@ id: PLAN-001
 type: plan
 title: Upload de mídia — API (EXEMPLO)
 status: draft
-created: 2025-01-01
 updated: 2025-01-01
-owner: <nome>
 parents: [SPEC-001]
 children: []
 related: [TDR-001]
-tags: [media]
-superseded_by: null
 ---
 
 # Plano de Implementação: Upload de mídia — API (EXEMPLO)
