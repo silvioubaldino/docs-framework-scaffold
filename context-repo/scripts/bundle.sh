@@ -5,8 +5,7 @@ set -e
 cd "$(dirname "$0")/.."
 OUT="CONTEXT.md"
 : > "$OUT"
-for f in manifest.md _meta/conventions.md _meta/glossary.md \
-         product.md requirements.md roadmap.md \
+for f in requirements.md roadmap.md architecture.md \
          design/AYD-*.md product_decisions/PDR-*.md architecture_decisions/ADR-*.md; do
   [ -f "$f" ] || continue
   printf '\n\n<!-- ===== %s ===== -->\n\n' "$f" >> "$OUT"
