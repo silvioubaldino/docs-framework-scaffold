@@ -2,8 +2,8 @@
 id: SPEC-009
 type: spec
 title: Agentes de execução (implementer + qa-reviewer)
-status: draft               # draft → review → approved (congela) — ver CLAUDE.md, Lifecycle
-updated: 2026-07-19
+status: review               # draft → review → approved (congela) — ver CLAUDE.md, Lifecycle
+updated: 2026-07-21
 parents: [AYD-002]
 children: []
 related: [SPEC-005]         # o qa-reviewer valida código contra os AC-N (C4)
