@@ -2,8 +2,8 @@
 id: SPEC-008
 type: spec
 title: Evals comportamentais da cascade e dos agentes
-status: draft               # draft → review → approved (congela) — ver CLAUDE.md, Lifecycle
-updated: 2026-07-19
+status: review               # draft → review → approved (congela) — ver CLAUDE.md, Lifecycle
+updated: 2026-07-21
 parents: [AYD-002]
 children: []
 related: [SPEC-004]         # os evals exercitam o gate ALIGN e a triagem da cascade
