@@ -2,8 +2,8 @@
 id: SPEC-007
 type: spec
 title: Skill de onboarding /init-framework
-status: draft               # draft → review → approved (congela) — ver CLAUDE.md, Lifecycle
-updated: 2026-07-19
+status: review               # draft → review → approved (congela) — ver CLAUDE.md, Lifecycle
+updated: 2026-07-21
 parents: [AYD-002]
 children: []
 related: [SPEC-003]         # grava o .framework-version definido por C3
