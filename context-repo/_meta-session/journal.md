@@ -24,3 +24,7 @@
 ## 2026-07-21 10:58 — Implementa SPEC-006 (journal + state de sessão)
 Pendências: nenhuma
 IDs tocados: AYD-002, SPEC-006
+
+## 2026-07-21 12:00 — Implementa SPEC-007 (skill de onboarding /init-framework)
+Pendências: nenhuma
+IDs tocados: AYD-002, SPEC-007

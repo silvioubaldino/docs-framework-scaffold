@@ -51,12 +51,17 @@ service-repo/     → copie para CADA repo de serviço (api, web, mobile)
 
 ### 1. Repo de contexto (uma vez por produto)
 1. Copie o conteúdo de `context-repo/` para um repo novo (ex.: `meuproduto-context`).
-2. Preencha `requirements.md` (visão em uma frase + requisitos + glossário), `roadmap.md`
+2. **Recomendado:** abra o Claude Code nesse repo e rode `/init-framework` — entrevista guiada
+   (nome do produto, repos de serviço, provedores) que preenche `requirements.md`/
+   `architecture.md`, configura o sync e a detecção multi-repo, grava `.framework-version` e
+   apaga os exemplos/meta-docs por você (ver `context-repo/.claude/skills/init-framework/SKILL.md`).
+   Os passos 3–5 abaixo são o equivalente manual, caso prefira não usar a skill.
+3. Preencha `requirements.md` (visão em uma frase + requisitos + glossário), `roadmap.md`
    e `architecture.md`.
-3. As regras do framework (IDs, frontmatter, ciclo de vida) vivem no `CLAUDE.md` do repo;
+4. As regras do framework (IDs, frontmatter, ciclo de vida) vivem no `CLAUDE.md` do repo;
    as regras de cada tipo de doc, no header do próprio arquivo/template.
-4. Apague os arquivos `*-example.*`.
-5. (Recomendado) rode `scripts/validate.py` antes de abrir PR — valida o grafo de docs
+5. Apague os arquivos `*-example.*`.
+6. (Recomendado) rode `scripts/validate.py` antes de abrir PR — valida o grafo de docs
    (frontmatter, simetria parents/children, refs quebradas); requer Python 3 (ver Pré-requisitos).
 
 ### 2. Cada repo de serviço (api, web, mobile)

@@ -31,3 +31,4 @@ repo adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Session memory (journal + state) added to the context repo, loaded at the start of each session.
 - Documentation initialized from the scaffold.
+- Added a guided onboarding interview (`/init-framework`) that fills in the product's requirements/architecture, configures sync and multi-repo detection, and removes scaffold examples for new adopters.
