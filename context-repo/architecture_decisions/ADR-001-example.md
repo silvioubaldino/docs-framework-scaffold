@@ -2,7 +2,7 @@
 id: ADR-001
 type: adr
 title: Upload via URL assinada (EXEMPLO)
-status: accepted
+status: approved
 updated: 2025-01-01
 parents: []
 related: [AYD-001]

@@ -2,7 +2,7 @@
 id: PDR-NNN
 type: pdr
 title: 
-status: draft               # proposed → accepted → superseded
+status: draft               # draft → review → approved → superseded (ver CLAUDE.md, Lifecycle)
 updated: 2025-01-01
 parents: []
 related: []                 # REQ relacionados
