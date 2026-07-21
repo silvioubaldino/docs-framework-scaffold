@@ -18,11 +18,22 @@ the docs framework.
 ## Project specifics  <!-- FILL IN -->
 > Engineering guidance that does **not** come from the docs framework: what Claude needs to
 > run, test, and write code in this repo.
-- **Stack / runtime:** _<language, framework, version>_
+
+### Stack  <!-- FILL IN -->
+> **Canonical, single source of stack truth for this repo.** `implementer` and `qa-reviewer`
+> (`.claude/agents/`) read the stack **here** — they don't duplicate it in their own prompts,
+> and no other doc in this repo should restate it either. If you change the stack, edit only
+> this block.
+- **Language / framework:** _<language, framework, version>_
 - **How to run:** _<setup and dev commands>_
 - **Build / test / lint:** _<commands>_
-- **Architecture:** _<layers, `src/` layout, patterns — or point to a TDR/ADR>_
-- **External integrations:** _<auth, payments, observability… what this repo consumes>_
+- **Conventions:** see "Engineering conventions (local)" below — don't restate them here.
+
+### Architecture  <!-- FILL IN -->
+- _<layers, `src/` layout, patterns — or point to a TDR/ADR>_
+
+### External integrations  <!-- FILL IN -->
+- _<auth, payments, observability… what this repo consumes>_
 
 ## Engineering conventions (local)
 @docs/conventions/testing.md
@@ -44,5 +55,8 @@ this is just the essentials.
 - **Contracts only change in the context** (AYD/ADR). If the `api`/backend diverges from the
   AYD, **flag it** — do not adapt locally (see `docs/shared/CLAUDE.md`, "Core rule").
 - **Feature flow:** read the AYD in `docs/shared/design/` → create/update the SPEC
-  (`parents: [AYD-NNN@context]`) → write the PLAN and implement → contract changed? go back
-  to the AYD in the context repo before proceeding.
+  (`parents: [AYD-NNN@context]`) → write the PLAN → the `implementer` agent
+  (`.claude/agents/implementer.md`) executes the PLAN and writes the code (stack from the
+  "Stack" section above; never redefines contract) → the `qa-reviewer` agent
+  (`.claude/agents/qa-reviewer.md`, read-only) checks the result against the SPEC's `AC-N` →
+  contract changed? go back to the AYD in the context repo before proceeding.

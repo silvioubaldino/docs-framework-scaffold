@@ -28,3 +28,8 @@ IDs tocados: AYD-002, SPEC-006
 ## 2026-07-21 12:00 — Implementa SPEC-007 (skill de onboarding /init-framework)
 Pendências: nenhuma
 IDs tocados: AYD-002, SPEC-007
+
+## 2026-07-21 13:15 — Implementa SPEC-009 (agentes implementer + qa-reviewer)
+Pendências: aprovação humana para SPEC-009 virar `approved`; SPEC-001 e SPEC-008 seguem
+como as últimas SPECs de AYD-002 ainda não implementadas.
+IDs tocados: AYD-002, SPEC-009
