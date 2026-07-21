@@ -2,8 +2,8 @@
 id: SPEC-005
 type: spec
 title: Critérios de aceite executáveis (AC-N ↔ teste)
-status: draft               # draft → review → approved (congela) — ver CLAUDE.md, Lifecycle
-updated: 2026-07-19
+status: review               # draft → review → approved (congela) — ver CLAUDE.md, Lifecycle
+updated: 2026-07-21
 parents: [AYD-002]
 children: []
 related: [SPEC-001]         # liga a regra AC_WITHOUT_TEST no validador

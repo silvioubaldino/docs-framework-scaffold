@@ -7,11 +7,13 @@ Contract C1 (AYD-002): scripts/validate.py [--repo-root PATH]
     SEVERITY | RULE_ID | file:line | message
   SEVERITY: ERROR | WARN
   RULE_IDs: FRONTMATTER_MISSING, PARENT_CHILD_ASYMMETRY, SPEC_WITHOUT_AYD,
-            INVALID_STATUS, BROKEN_REF, AC_WITHOUT_TEST (reserved, WARN, not
-            emitted until SPEC-005 defines AC-N ids)
+            INVALID_STATUS, BROKEN_REF, AC_WITHOUT_TEST (SPEC-005/C4: a SPEC's
+            `AC-N` scenario without a `SPEC-NNN/AC-N` test reference anywhere
+            in the repo — WARN while draft/review, ERROR once approved)
 """
 import argparse
 import os
+import re
 import sys
 
 from frontmatter import parse_frontmatter
@@ -29,6 +31,17 @@ GOVERNED_SINGLETON_BASENAMES = {
     "requirements.md", "roadmap.md", "architecture.md", "changelog.md",
 }
 EXCLUDED_DIR_NAMES = {".git", "node_modules", ".claude", "shared"}
+# SPEC-005 AC-2: test references (SPEC-NNN/AC-N) can live in any stack's test
+# files, so the scan for them walks the whole tree by content, not by a fixed
+# test path — these dirs are excluded as vendor/build noise, never test code.
+AC_SCAN_EXCLUDED_DIR_NAMES = EXCLUDED_DIR_NAMES | {
+    "dist", "build", "vendor", "venv", ".venv", "target", "coverage",
+    ".next", ".turbo", "__pycache__",
+}
+AC_SCAN_MAX_BYTES = 2_000_000
+
+AC_MARKER_RE = re.compile(r"^\s*#\s*AC-(\d+)\s*$")
+AC_REF_RE = re.compile(r"\b(SPEC-\d+)/AC-(\d+)\b")
 
 
 class Violation:
@@ -57,6 +70,7 @@ class Doc:
         self.parents = []
         self.children = []
         self.related = []
+        self.ac_ids = {}   # {ac_num: line} — SPEC-005/C4, only populated for type=="spec"
 
 
 def is_governed(repo_root, path):
@@ -132,8 +146,47 @@ def collect_docs(repo_root, files, violations):
         doc.parents = parse_list_value(fields.get("parents", ""))
         doc.children = parse_list_value(fields.get("children", ""))
         doc.related = parse_list_value(fields.get("related", ""))
+        if doc.type == "spec":
+            doc.ac_ids = parse_ac_ids(lines)
         docs.append(doc)
     return docs
+
+
+def parse_ac_ids(lines):
+    """`# AC-N` comment lines (Gherkin scenario ids, SPEC-005/C4) -> {N: line}."""
+    ac_ids = {}
+    for i, raw in enumerate(lines):
+        m = AC_MARKER_RE.match(raw)
+        if m:
+            ac_ids[int(m.group(1))] = i + 1
+    return ac_ids
+
+
+def collect_ac_references(repo_root):
+    """Walk repo_root for `SPEC-NNN/AC-N` mentions in file content (SPEC-005
+    edge case: tests can live anywhere, matched by content, not a fixed path).
+    Governed docs are excluded — a SPEC mentioning its own AC in prose is not
+    a test. Returns {spec_id: {ac_num: [(file, line), ...]}}."""
+    refs = {}
+    for dirpath, dirnames, filenames in os.walk(repo_root):
+        dirnames[:] = [d for d in dirnames if d not in AC_SCAN_EXCLUDED_DIR_NAMES]
+        for name in filenames:
+            path = os.path.join(dirpath, name)
+            if name.endswith(".md") and is_governed(repo_root, path):
+                continue
+            try:
+                if os.path.getsize(path) > AC_SCAN_MAX_BYTES:
+                    continue
+                with open(path, "r", encoding="utf-8") as f:
+                    content = f.read()
+            except (OSError, UnicodeDecodeError):
+                continue
+            rel = os.path.relpath(path, repo_root)
+            for lineno, line in enumerate(content.splitlines(), start=1):
+                for m in AC_REF_RE.finditer(line):
+                    spec_id, ac_num = m.group(1), int(m.group(2))
+                    refs.setdefault(spec_id, {}).setdefault(ac_num, []).append((rel, lineno))
+    return refs
 
 
 def check_status(doc, violations):
@@ -204,6 +257,29 @@ def check_broken_refs(doc, index, violations):
                     "ERROR", "BROKEN_REF", doc.file, line, f"{base_id} inexistente"))
 
 
+def check_ac_without_test(doc, ac_refs, violations):
+    if doc.type != "spec" or not doc.ac_ids:
+        return
+    covered = ac_refs.get(doc.id, {})
+    severity = "ERROR" if doc.status == "approved" else "WARN"
+    for ac_num, line in sorted(doc.ac_ids.items()):
+        if ac_num not in covered:
+            violations.append(Violation(
+                severity, "AC_WITHOUT_TEST", doc.file, line, f"AC-{ac_num} sem teste"))
+
+
+def check_broken_ac_refs(index, ac_refs, violations):
+    for spec_id, acs in ac_refs.items():
+        spec_doc = index.get(spec_id)
+        for ac_num, locations in acs.items():
+            if spec_doc is not None and ac_num in spec_doc.ac_ids:
+                continue
+            for rel, lineno in locations:
+                violations.append(Violation(
+                    "ERROR", "BROKEN_REF", rel, lineno,
+                    f"{spec_id}/AC-{ac_num} inexistente"))
+
+
 def validate(repo_root):
     files = discover_files(repo_root)
     violations = []
@@ -217,6 +293,11 @@ def validate(repo_root):
         check_parent_child_asymmetry(doc, index, violations)
     for doc in docs:
         check_broken_refs(doc, index, violations)
+
+    ac_refs = collect_ac_references(repo_root)
+    for doc in docs:
+        check_ac_without_test(doc, ac_refs, violations)
+    check_broken_ac_refs(index, ac_refs, violations)
 
     violations.sort(key=lambda v: v.sort_key())
     return violations

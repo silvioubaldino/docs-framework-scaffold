@@ -17,7 +17,13 @@ related: [GLO]              # ADR/TDR relevantes
 _O papel deste repo nesta feature (conforme o AYD)._
 
 ## Critérios de aceite
+> Cada Cenário tem um id `AC-N` (comentário `# AC-N` na linha acima do Cenário). Todo teste
+> que cobrir um cenário referencia `SPEC-NNN/AC-N` (ex.: `SPEC-012/AC-1`) no nome, tag ou
+> comentário — legível por humano e por grep. Esta SPEC só vira `approved` quando todo `AC-N`
+> tiver ≥1 teste referenciando-o (regra `AC_WITHOUT_TEST` do validador — ver
+> `docs/shared/CLAUDE.md`, Lifecycle).
 ```gherkin
+# AC-1
 Cenário: <nome>
   Dado <contexto>
   Quando <ação>
