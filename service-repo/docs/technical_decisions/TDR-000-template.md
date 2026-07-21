@@ -2,7 +2,7 @@
 id: TDR-NNN
 type: tdr
 title: 
-status: draft               # proposed → accepted → superseded
+status: draft               # draft → review → approved → superseded (ver docs/shared/CLAUDE.md, Lifecycle)
 updated: 2025-01-01
 parents: []
 related: []

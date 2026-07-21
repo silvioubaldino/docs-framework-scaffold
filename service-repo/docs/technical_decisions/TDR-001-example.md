@@ -2,7 +2,7 @@
 id: TDR-001
 type: tdr
 title: Validação com biblioteca de schema (EXEMPLO)
-status: accepted
+status: approved
 updated: 2025-01-01
 parents: []
 related: [PLAN-001]

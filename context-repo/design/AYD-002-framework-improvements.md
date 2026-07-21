@@ -3,7 +3,7 @@ id: AYD-002
 type: design
 title: Melhorias de robustez do framework (validação, guardrails, versionamento, ciclo completo)
 status: draft
-updated: 2026-07-19
+updated: 2026-07-21
 parents: []                # meta-AYD: o "produto" aqui é o próprio framework; não há REQ formal
 children: [SPEC-001, SPEC-002, SPEC-003, SPEC-004, SPEC-005, SPEC-006, SPEC-007, SPEC-008, SPEC-009]
 related: []
@@ -66,17 +66,24 @@ GIT_SAFETY (Bash: push/reset --hard/force exige aprovação humana)
 
 ### C3 — Version file contract (SPEC-003)
 ```
-.framework-version (raiz do repo instalado)
+.framework-version (raiz do repo instalado, OU num subdiretório imediato dela — ex.:
+                     docs/, quando o template concentra tudo ali)
 framework: docs-framework-scaffold
+source: <git URL do scaffold>
+template: <nome do template no scaffold, ex.: context-repo | service-repo>
+root: <caminho relativo deste diretório até a raiz real do repo — "." ou "..">
 version: <semver da tag instalada>
 installed: <yyyy-MM-dd>
-files:                        # arquivos DE FRAMEWORK (elegíveis a update/diff)
+files:                        # arquivos DE FRAMEWORK, relativos à RAIZ (não a este arquivo)
   - CLAUDE.md
   - .claude/**
   - docs/scripts/sync-context.sh
   - ...
 ```
-Conteúdo de produto (REQ/AYD/SPEC reais) **nunca** entra em `files`.
+Conteúdo de produto (REQ/AYD/SPEC reais) **nunca** entra em `files`. `root:` existe porque
+o `service-repo` concentra tudo sob `docs/` (só `CLAUDE.md`/`.gitignore` ficam na raiz de
+fato) — o manifesto mora em `docs/.framework-version` com `root: ..`, e `files:` continua
+declarado relativo à raiz real (ex.: `CLAUDE.md`, `docs/scripts/**`).
 
 ### C4 — Acceptance-criteria ID contract (SPEC-005, verificado por C1)
 ```

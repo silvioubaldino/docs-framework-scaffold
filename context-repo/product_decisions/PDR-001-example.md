@@ -2,7 +2,7 @@
 id: PDR-001
 type: pdr
 title: MVP só com web e api (EXEMPLO)
-status: accepted
+status: approved
 updated: 2025-01-01
 parents: []
 related: [REQ-001, ROAD-001]
