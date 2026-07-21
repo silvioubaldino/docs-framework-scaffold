@@ -20,21 +20,3 @@
 > cronologicamente pelo timestamp — nunca descarte uma em favor da outra.
 
 ---
-
-## 2026-07-21 10:58 — Implementa SPEC-006 (journal + state de sessão)
-Pendências: nenhuma
-IDs tocados: AYD-002, SPEC-006
-
-## 2026-07-21 12:00 — Implementa SPEC-007 (skill de onboarding /init-framework)
-Pendências: nenhuma
-IDs tocados: AYD-002, SPEC-007
-
-## 2026-07-21 13:15 — Implementa SPEC-009 (agentes implementer + qa-reviewer)
-Pendências: aprovação humana para SPEC-009 virar `approved`; SPEC-001 e SPEC-008 seguem
-como as últimas SPECs de AYD-002 ainda não implementadas.
-IDs tocados: AYD-002, SPEC-009
-## 2026-07-21 13:15 — Implementa SPEC-008 (evals comportamentais)
-Pendências: casos EVAL-001/002/003 têm o bloco `## Observado` pré-preenchido a partir da
-leitura atual da skill `cascade`/SPEC-004 — replay real (humano/agente rodando a triagem) fica
-pendente para validar de forma independente.
-IDs tocados: AYD-002, SPEC-008

@@ -42,8 +42,8 @@ service-repo/     → copie para CADA repo de serviço (api, web, mobile)
 
 ## Pré-requisitos
 - **Python 3** (só biblioteca padrão, sem `pip install`) para rodar `scripts/validate.py`
-  (validador de integridade do grafo — ver `context-repo/_framework/SPEC-001-graph-validator.md`),
-  presente em ambos os templates. Já vem instalado no macOS e na maioria das distros Linux e
+  (validador de integridade do grafo — frontmatter, simetria parents/children, refs
+  quebradas), presente em ambos os templates. Já vem instalado no macOS e na maioria das distros Linux e
   dos runners de CI padrão; em Windows sem WSL, confirme que o comando `python3` existe no PATH
   (senão ajuste o shebang ou invoque como `python scripts/validate.py`).
 

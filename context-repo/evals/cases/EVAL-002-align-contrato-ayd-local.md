@@ -22,8 +22,8 @@ expected_docs_touched: [AYD-novo, SPEC-novo@api]
 
 Nível 2 (§1): AYD novo que afeta 1 repo. A cascade redige o AYD (contrato) e despacha 1
 `spec-author` para a SPEC. Por criar contrato, o gate **ALIGN-Contrato** (§2) é obrigatório
-**antes** de escrever o arquivo do AYD (SPEC-004/AC-1) — só grava após aprovação humana
-explícita. Sem fan-out: um único repo afetado não dispara o passo FAN-OUT (§4).
+**antes** de escrever o arquivo do AYD — só grava após aprovação humana explícita. Sem
+fan-out: um único repo afetado não dispara o passo FAN-OUT (§4).
 
 ## Observado
 

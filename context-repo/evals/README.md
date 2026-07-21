@@ -1,9 +1,9 @@
-# Evals comportamentais (SPEC-008 de AYD-002)
+# Evals comportamentais
 
 > Impede regressão silenciosa de **julgamento** da cascade/agentes quando `.claude/skills/**`
-> ou `.claude/agents/**` mudam. Complementa o validador (SPEC-001, estrutura determinística)
-> cobrindo o que exige julgamento: nível de triagem certo, gate ALIGN (SPEC-004) disparado
-> quando devia, fan-out só cross-repo.
+> ou `.claude/agents/**` mudam. Complementa o validador (`scripts/validate.py`, estrutura
+> determinística) cobrindo o que exige julgamento: nível de triagem certo, gate ALIGN
+> (skill `cascade`, §2) disparado quando devia, fan-out só cross-repo.
 
 ## O que um caso afirma (e o que não afirma)
 

@@ -28,9 +28,3 @@ repo adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - **Length:** each line is **≤300 characters total**, link included.
 
 ## Unreleased
-
-- Added `implementer` and `qa-reviewer` agents to the service repo template, plus a canonical stack section in its `CLAUDE.md` that both agents read instead of duplicating.
-- Session memory (journal + state) added to the context repo, loaded at the start of each session.
-- Documentation initialized from the scaffold.
-- Added a guided onboarding interview (`/init-framework`) that fills in the product's requirements/architecture, configures sync and multi-repo detection, and removes scaffold examples for new adopters.
-- Added behavioral evals for the cascade skill and agents, catching silent regressions in triage level, the ALIGN gate, and fan-out decisions when skills/agents change.
