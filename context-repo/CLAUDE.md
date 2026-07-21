@@ -7,6 +7,9 @@ which mirror it under `docs/shared/`.
 ## Start here
 - @requirements.md — requirements **and glossary** (ALWAYS use these terms)
 - @architecture.md — living architecture (C4)
+- @_meta-session/state.md — what's in progress right now (active AYD/SPEC, pending reviews)
+- @_meta-session/journal.md — session log; check it for recent history the state snapshot
+  doesn't carry (each entry's own header explains the append/archive policy)
 
 ## What lives here (shared)
 - **REQ** (`requirements.md`) — requirements + glossary (GLO)

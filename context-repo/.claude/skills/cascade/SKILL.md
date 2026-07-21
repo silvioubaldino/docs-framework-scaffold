@@ -183,3 +183,24 @@ Lembre: contrato **só muda aqui** (no AYD/ADR). O serviço implementa, não red
       (ou no `changelog.md` na ausência dele) com o quê foi aprovado e os IDs afetados.
 - [ ] Diagramas mermaid atualizados na mesma edição do contrato; se mudou topologia,
       `architecture.md` também, no mesmo PR.
+- [ ] Journal/state atualizados (`_meta-session/`, §9), se algum doc mudou nesta sessão.
+
+## 9. Memória de sessão (journal + state) — SPEC-006/C5
+
+Último passo do fecho, depois do resto do checklist (§8). Se este repo não tiver
+`_meta-session/` (framework instalado antes da SPEC-006), pule sem erro. Se **nenhum** doc
+mudou nesta sessão, não escreva nada (evita ruído no journal).
+
+1. **Journal (append-only):** acrescente ao **fim** de `_meta-session/journal.md` — nunca
+   reescreva entradas antigas:
+   ```
+   ## <yyyy-MM-dd HH:mm> — <1 linha do que foi feito>
+   Pendências: <o que ficou em aberto, ou "nenhuma">
+   IDs tocados: <lista de IDs>
+   ```
+2. **Auto-arquivamento:** se `journal.md` passar de 200 linhas após o append, mova as entradas
+   mais antigas (do topo) para `_meta-session/journal-archive/journal-<yyyy-MM-dd>.md` até o
+   arquivo voltar abaixo do budget (`journal-archive/` é criado sob demanda).
+3. **State (sobrescrito):** substitua `_meta-session/state.md` inteiro pelo retrato atual —
+   AYD/SPEC ativos, reviews pendentes, próximos passos. Não acumula histórico; isso é papel
+   do journal.
