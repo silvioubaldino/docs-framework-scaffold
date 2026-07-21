@@ -3,7 +3,7 @@ id: ADR-003
 type: adr
 title: Separação arquivos de framework × conteúdo de produto via .framework-version
 status: approved
-updated: 2026-07-20
+updated: 2026-07-21
 parents: []
 related: [AYD-002, SPEC-003]
 superseded_by: null
@@ -30,11 +30,19 @@ O AYD-002 escolheu a **opção A** (arquivo de versão + diff) em vez de um inst
 
 ## Decisão
 
-Cada template instalável carrega, na raiz, um **manifesto `.framework-version`** que declara
-`framework/source/template/version/installed` e uma lista `files:` de **globs de arquivos de
-framework** (formas suportadas: caminho literal ou `dir/**`). Esse manifesto é a **fonte da
-verdade do que é atualizável**: o `update-framework.sh` busca a tag-alvo do scaffold e computa
-o diff **exclusivamente** nos paths cobertos por `files:`.
+Cada template instalável carrega um **manifesto `.framework-version`** que declara
+`framework/source/template/root/version/installed` e uma lista `files:` de **globs de
+arquivos de framework** (formas suportadas: caminho literal ou `dir/**`, sempre relativos à
+**raiz real do repo**, não ao arquivo do manifesto). Esse manifesto é a **fonte da verdade do
+que é atualizável**: o `update-framework.sh` busca a tag-alvo do scaffold e computa o diff
+**exclusivamente** nos paths cobertos por `files:`.
+
+O manifesto normalmente mora na raiz do repo (`root: .`). O `service-repo`, porém, concentra
+tudo sob `docs/` (só `CLAUDE.md`/`.gitignore` ficam de fato na raiz) — nele o manifesto mora
+em `docs/.framework-version` com `root: ..`, apontando de volta para a raiz real. O script
+localiza o manifesto subindo a partir de si mesmo (uso normal) ou descendo até 1 nível a
+partir de `--repo-root` (uso explícito); `root:` resolve a raiz a partir do diretório do
+manifesto nos dois casos, então `files:` nunca precisa de paths relativos ao manifesto.
 
 Consequências de projeto que decorrem da separação:
 
@@ -66,9 +74,9 @@ Consequências de projeto que decorrem da separação:
   `--dry-run` para preview; produto fica garantidamente fora do diff; a fronteira
   "framework × produto" passa a ser um artefato versionado (o manifesto), não convenção tácita.
 - **Negativas:** o manifesto precisa ser mantido quando arquivos de framework nascem/morrem;
-  a mecânica assume o layout do scaffold (subdir `template/` mapeado por `template:`) e git no
-  PATH; a checagem de produto (AC-5) depende de `python3`/`frontmatter.py` e é _fail-open_
-  (pula com aviso se ausentes), coerente com ADR-002.
+  a mecânica assume o layout do scaffold (subdir `template/` mapeado por `template:`, e
+  `root:` limitado a `.`/`..`) e git no PATH; a checagem de produto (AC-5) depende de
+  `python3`/`frontmatter.py` e é _fail-open_ (pula com aviso se ausentes), coerente com ADR-002.
 - **Impacto (IDs/repos afetados):** materializa o contrato **C3** de `AYD-002`; entregue por
   `SPEC-003`. Adiciona `.framework-version` e `update-framework.sh` aos dois templates
   (`context-repo/`, `service-repo/`). Não altera a topologia — `architecture.md` não muda.

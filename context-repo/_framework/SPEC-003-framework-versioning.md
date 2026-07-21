@@ -3,7 +3,7 @@ id: SPEC-003
 type: spec
 title: Versionamento e atualização do framework
 status: review              # draft → review → approved (congela) — ver CLAUDE.md, Lifecycle
-updated: 2026-07-20
+updated: 2026-07-21
 parents: [AYD-002]
 children: []
 related: []
@@ -28,9 +28,11 @@ separação "arquivos de framework × conteúdo de produto" — e por isso **abr
 # AC-1
 Cenário: arquivo de versão presente e completo
   Dado um projeto instalado
-  Quando inspeciono a raiz
-  Então existe `.framework-version` com framework, version (semver), installed (yyyy-MM-dd)
-        e uma lista `files:` de globs de framework
+  Quando inspeciono a raiz do repo (ou o subdiretório imediato dela onde o template
+        concentra tudo — ex.: `docs/` no service-repo)
+  Então existe `.framework-version` com framework, template, root (`.` ou `..`), version
+        (semver), installed (yyyy-MM-dd) e uma lista `files:` de globs de framework,
+        relativos à raiz real do repo (não ao arquivo do manifesto)
 
 # AC-2
 Cenário: update aplica só arquivos de framework
@@ -63,15 +65,18 @@ Cenário: files nunca lista conteúdo de produto
 ## Contratos consumidos/expostos
 
 - **Expõe C3 — Version file contract** (AYD-002): `.framework-version` com
-  `framework/version/installed/files:`; produto **nunca** entra em `files:`. Este PR define
-  C3; não o redefine.
+  `framework/source/template/root/version/installed/files:`; produto **nunca** entra em
+  `files:`. Este PR define C3; não o redefine.
 - Sem dependência de outras SPECs (paralelizável com SPEC-001/004/006).
 
 ## Modelo de dados / componentes afetados
 
-- `.framework-version` (novo) na raiz de cada template instalável.
-- `update-framework.sh` (novo): resolve tag via git (fetch da origem do scaffold), diff
-  restrito por `files:`, `--dry-run`, atualização do próprio `.framework-version`.
+- `.framework-version` (novo) na raiz de cada template instalável — ou em `docs/` no
+  service-repo (`root: ..`), já que só `CLAUDE.md`/`.gitignore` ficam de fato na raiz ali.
+- `update-framework.sh` (novo): resolve tag via git (fetch da origem do scaffold), localiza
+  o manifesto subindo do próprio script (ou descendo até 1 nível a partir de `--repo-root`),
+  diff restrito por `files:` (relativo à raiz, via `root:`), `--dry-run`, `--check`,
+  atualização do próprio `.framework-version`.
 - README: seção "Atualizar o framework" apontando o comando.
 
 ## Casos de borda & fora de escopo

@@ -1,11 +1,14 @@
 # Manifesto do framework (contrato C3 de AYD-002).
 # `version`/`installed` são geridos por docs/scripts/update-framework.sh — não edite à mão.
-# `files:` lista os ARQUIVOS DE FRAMEWORK (elegíveis a diff/update). Conteúdo de produto
-# (SPEC/PLAN/TDR reais, docs/conventions/*, docs/changelog.md) e o espelho docs/shared/
-# NUNCA entram aqui. Formas de glob suportadas: caminho literal ou `dir/**` (recursivo).
+# `files:` lista os ARQUIVOS DE FRAMEWORK (elegíveis a diff/update), relativos à RAIZ do
+# repo (não a este arquivo — ver `root:`). Conteúdo de produto (SPEC/PLAN/TDR reais,
+# docs/conventions/*, docs/changelog.md) e o espelho docs/shared/ NUNCA entram aqui.
+# Formas de glob suportadas: caminho literal ou `dir/**` (recursivo).
+# `root:` = caminho deste diretório (docs/) até a raiz real do repo instalado.
 framework: docs-framework-scaffold
 source: git@github.com:silvioubaldino/docs-framework-scaffold.git
 template: service-repo
+root: ..
 version: 0.1.0
 installed: 2026-07-20
 files:

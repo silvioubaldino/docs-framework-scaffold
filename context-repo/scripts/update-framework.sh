@@ -2,9 +2,13 @@
 # update-framework.sh — atualiza os ARQUIVOS DE FRAMEWORK de um repo instalado para uma
 # tag-alvo do scaffold, sem tocar em conteúdo de produto (SPEC-003 de AYD-002).
 #
-# Contrato C3 (AYD-002): a raiz do repo tem `.framework-version` declarando
-#   framework/source/template/version/installed e a lista `files:` de globs de framework.
-#   SÓ os paths cobertos por `files:` são elegíveis a diff/update; REQ/AYD/SPEC reais nunca.
+# Contrato C3 (AYD-002): o repo instalado tem um `.framework-version` (na raiz, ou num
+#   subdiretório imediato — ex.: docs/ — quando o template concentra tudo ali) declarando
+#   framework/source/template/root/version/installed e a lista `files:` de globs de
+#   framework. `root:` é o caminho relativo do diretório do manifesto até a raiz real do
+#   repo (`.` quando o manifesto já está na raiz; `..` quando está um nível abaixo, ex.:
+#   `docs/`). SÓ os paths cobertos por `files:` (relativos à raiz, não ao manifesto) são
+#   elegíveis a diff/update; REQ/AYD/SPEC reais nunca.
 #
 # Uso:
 #   update-framework.sh --to <ref> [--dry-run] [--from <git-url>] [--repo-root <path>]
@@ -24,7 +28,7 @@ PARSER="$HERE/frontmatter.py"   # parser de frontmatter compartilhado (SPEC-001)
 
 die() { echo "$PROG: $*" >&2; exit 1; }
 
-usage() { sed -n '2,17p' "$0" | sed 's/^# \{0,1\}//'; }
+usage() { sed -n '2,22p' "$0" | sed 's/^# \{0,1\}//'; }
 
 # ---- argumentos --------------------------------------------------------------
 TARGET=""; FROM=""; REPO_ROOT=""; DRY_RUN=0; MODE="update"
@@ -40,25 +44,44 @@ while [ $# -gt 0 ]; do
   esac
 done
 
-# ---- localizar a raiz instalada (onde vive .framework-version) ----------------
-find_root() {
-  d="$HERE"
+# ---- leitura do manifesto ----------------------------------------------------
+mf_field() { sed -n "s/^$1:[[:space:]]*//p" "$2" | head -n1; }
+
+# ---- localizar o manifesto e a raiz real do repo instalado --------------------
+# `.framework-version` pode morar na raiz do repo ou num subdiretório imediato dela
+# (ex.: docs/, quando o template concentra tudo ali) — a própria doc declara a
+# distância até a raiz no campo `root:` (`.` ou `..`).
+find_manifest_upward() {  # sobe de $1 procurando .framework-version; imprime o caminho
+  d="$1"
   while [ "$d" != "/" ]; do
-    [ -f "$d/.framework-version" ] && { printf '%s\n' "$d"; return 0; }
+    [ -f "$d/.framework-version" ] && { printf '%s\n' "$d/.framework-version"; return 0; }
     d="$(dirname "$d")"
   done
   return 1
 }
+find_manifest_under() {  # busca .framework-version sob $1 (até 1 nível de subpasta)
+  find "$1" -maxdepth 2 -name '.framework-version' 2>/dev/null | head -n1
+}
+
 if [ -n "$REPO_ROOT" ]; then
   ROOT="$(cd "$REPO_ROOT" && pwd)"
+  MANIFEST="$(find_manifest_under "$ROOT")"
+  [ -n "$MANIFEST" ] || die "sem .framework-version em $ROOT (nem em subpasta de 1 nível)"
 else
-  ROOT="$(find_root)" || die "não achei .framework-version subindo de $HERE (use --repo-root)"
+  MANIFEST="$(find_manifest_upward "$HERE")" || die "não achei .framework-version subindo de $HERE (use --repo-root)"
 fi
-MANIFEST="$ROOT/.framework-version"
-[ -f "$MANIFEST" ] || die "sem .framework-version em $ROOT"
 
-# ---- leitura do manifesto ----------------------------------------------------
-mf_field() { sed -n "s/^$1:[[:space:]]*//p" "$2" | head -n1; }
+MDIR="$(dirname "$MANIFEST")"
+ROOT_REL="$(mf_field root "$MANIFEST")"; ROOT_REL="${ROOT_REL:-.}"
+# só "." (manifesto na raiz) e ".." (manifesto um nível abaixo, ex.: docs/) são suportados;
+# usado para achar/validar a raiz real e, ao reescrever, preservar `root:` e excluir o
+# próprio manifesto de files:.
+case "$ROOT_REL" in
+  .)  MANIFEST_REL=".framework-version" ;;
+  ..) MANIFEST_REL="$(basename "$MDIR")/.framework-version" ;;
+  *)  die "root: '$ROOT_REL' não suportado em $MANIFEST (use '.' ou '..')" ;;
+esac
+[ -n "$REPO_ROOT" ] || ROOT="$(cd "$MDIR/$ROOT_REL" && pwd)"
 
 mf_globs() {  # imprime os globs da seção files: de um manifesto ($1)
   awk '
@@ -163,7 +186,8 @@ if ! clone_ref "$TARGET" "$TMP/target"; then
 fi
 TROOT="$TMP/target/$TEMPLATE"
 [ -d "$TROOT" ] || die "diretório de template '$TEMPLATE' não existe na ref '$TARGET'"
-TMANIFEST="$TROOT/.framework-version"
+TMANIFEST="$(find_manifest_under "$TROOT")"
+[ -n "$TMANIFEST" ] || die "'$TEMPLATE' na ref '$TARGET' não tem .framework-version (raiz ou 1 nível abaixo)"
 
 # base (best-effort, para detectar edição local); tenta a versão atual com e sem 'v'
 BROOT=""
@@ -181,8 +205,16 @@ if ! check_manifest "$TMANIFEST" "$TROOT"; then
   die "manifesto da ref '$TARGET' inválido: files: casa conteúdo de produto — nada aplicado"
 fi
 
+# relativo do manifesto-alvo dentro de TROOT (mesma regra de root: usada para o local)
+TROOT_REL="$(mf_field root "$TMANIFEST")"; TROOT_REL="${TROOT_REL:-.}"
+case "$TROOT_REL" in
+  .)  TMANIFEST_REL=".framework-version" ;;
+  ..) TMANIFEST_REL="$(basename "$(dirname "$TMANIFEST")")/.framework-version" ;;
+  *)  die "root: '$TROOT_REL' não suportado em $TMANIFEST (use '.' ou '..')" ;;
+esac
+
 # conjunto de arquivos de framework = files: da tag-alvo (a referência), menos o manifesto
-TARGET_FILES="$(mf_globs "$TMANIFEST" | expand_globs "$TROOT" | grep -v '^\.framework-version$' | sort -u || true)"
+TARGET_FILES="$(mf_globs "$TMANIFEST" | expand_globs "$TROOT" | grep -vxF "$TMANIFEST_REL" | sort -u || true)"
 [ -n "$TARGET_FILES" ] || die "a ref '$TARGET' não declara arquivos de framework em files: — nada a fazer"
 
 show_diff() {  # $1=dst (pode não existir) $2=src
@@ -243,6 +275,8 @@ if [ "$n_conflict" -gt 0 ]; then
 fi
 
 # ---- atualiza o próprio manifesto: version/installed + files: da tag-alvo -----
+# root: é preservado do manifesto local — descreve o layout deste repo instalado
+# (onde o manifesto mora), não o da tag-alvo.
 NEW_VERSION="${TARGET#v}"
 {
   echo "# Manifesto do framework (contrato C3 de AYD-002)."
@@ -251,11 +285,11 @@ NEW_VERSION="${TARGET#v}"
   echo "framework: $FRAMEWORK"
   echo "source: $SOURCE"
   echo "template: $TEMPLATE"
+  echo "root: $ROOT_REL"
   echo "version: $NEW_VERSION"
   echo "installed: $(date +%F)"
   echo "files:"
-  if [ -f "$TMANIFEST" ]; then mf_globs "$TMANIFEST" | sed 's/^/  - /'
-  else mf_globs "$MANIFEST" | sed 's/^/  - /'; fi
+  mf_globs "$TMANIFEST" | sed 's/^/  - /'
 } > "$MANIFEST.tmp"
 mv "$MANIFEST.tmp" "$MANIFEST"
 

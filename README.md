@@ -81,7 +81,9 @@ service-repo/     → copie para CADA repo de serviço (api, web, mobile)
 Um projeto já instalado atualiza **só os arquivos de framework** (engine: `CLAUDE.md`,
 `.claude/`, `scripts/`, templates) para uma versão nova do scaffold — **sem tocar** no seu
 conteúdo de produto (REQ/AYD/SPEC reais). O que é atualizável é declarado no
-`.framework-version` da raiz (campo `files:`); o comando busca a tag-alvo e aplica o diff só nesses paths.
+`.framework-version` (raiz do repo de contexto; `docs/` no service-repo, já que só
+`CLAUDE.md`/`.gitignore` ficam de fato na raiz ali), campo `files:`; o comando busca a
+tag-alvo e aplica o diff só nesses paths.
 
 - **Preview:** `scripts/update-framework.sh --to <tag> --dry-run` (contexto) ou
   `docs/scripts/update-framework.sh --to <tag> --dry-run` (serviço) — mostra o diff, não escreve nada.
