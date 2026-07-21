@@ -53,6 +53,9 @@ Every `SPEC` has an `AYD` in `parents`; **1 AYD → N SPECs**, one per affected 
 - PDR / ADR = append-only (a new decision supersedes the old one via `superseded_by`).
 - SPEC / PLAN / TDR live in the service repos; each template's header carries its own rules
   (SPEC freezes when `approved`; PLAN is ephemeral; TDR is append-only).
+- A SPEC only becomes `approved` once every `AC-N` in its acceptance criteria has ≥1 test
+  referencing it (`SPEC-NNN/AC-N`) — the validator's `AC_WITHOUT_TEST` rule enforces this
+  (WARN while `draft`/`review`, ERROR once `approved`).
 - When you change something, mark the affected `children` (including in other repos) as `status: review`.
 - Topology changed (a service/integration was added or removed)? Update `architecture.md`
   in the same edit.
