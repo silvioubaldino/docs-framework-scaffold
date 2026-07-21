@@ -47,6 +47,8 @@ AYD's "Repos afetados e papéis" table) — don't duplicate in frontmatter.
 Every `SPEC` has an `AYD` in `parents`; **1 AYD → N SPECs**, one per affected repo.
 
 ## Lifecycle
+- A contract is only created/altered in an AYD/ADR/PDR after explicit human approval (the
+  ALIGN gate — see the `cascade` skill, §2); this holds even outside the skill.
 - REQ / AYD / ROAD / ARCH = living (edit in-place, update `updated`; log in `changelog.md`).
 - PDR / ADR = append-only (a new decision supersedes the old one via `superseded_by`).
 - SPEC / PLAN / TDR live in the service repos; each template's header carries its own rules

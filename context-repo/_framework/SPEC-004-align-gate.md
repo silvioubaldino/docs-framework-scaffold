@@ -2,8 +2,8 @@
 id: SPEC-004
 type: spec
 title: Gate ALIGN obrigatório na cascade
-status: draft               # draft → review → approved (congela) — ver CLAUDE.md, Lifecycle
-updated: 2026-07-19
+status: review               # draft → review → approved (congela) — ver CLAUDE.md, Lifecycle
+updated: 2026-07-21
 parents: [AYD-002]
 children: []
 related: []                 # sem dependência — paralelizável com SPEC-001/003/006
