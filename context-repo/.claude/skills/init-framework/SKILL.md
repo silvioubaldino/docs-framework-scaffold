@@ -1,7 +1,7 @@
 ---
 name: init-framework
 description: >-
-  Entrevista guiada de onboarding do framework (SPEC-007 de AYD-002): perguntas mínimas
+  Entrevista guiada de onboarding do framework: perguntas mínimas
   (nome do produto, repos de serviço e seus caminhos, provedores) preenchem
   requirements.md/architecture.md, configuram o sync (sync-context.sh) e a detecção
   multi-repo da skill `cascade`, gravam `.framework-version` (C3) e removem os
@@ -11,7 +11,7 @@ description: >-
   é a skill `cascade`) nem num projeto que já rodou esta entrevista (ver §1, Idempotência).
 ---
 
-# Init Framework — entrevista guiada de onboarding (SPEC-007 de AYD-002)
+# Init Framework — entrevista guiada de onboarding
 
 Você conduz a **entrevista de adoção**: substitui "clone, leia os READMEs, edite à mão,
 apague os exemplos" por perguntas mínimas cujas respostas preenchem o scaffold. Esta skill
@@ -31,7 +31,7 @@ Se nenhum marcador aparecer, **aborte** com uma mensagem clara: "este diretório
 scaffold do framework (docs-framework-scaffold) — rode a partir do repo de contexto clonado".
 Não adivinhe nem tente "consertar" um repo não relacionado.
 
-## 1. Idempotência — instalação já existe? (AC-6)
+## 1. Idempotência — instalação já existe?
 
 Verifique o sinal combinado de instalação já concluída:
 - `_framework/` **não existe** (já foi removido por uma init anterior); **e**
@@ -58,7 +58,7 @@ Faça estas perguntas, nesta ordem, aceitando respostas parciais (ver §5, Borda
    "Produto em uma frase" de `requirements.md`.
 2. **Repos de serviço:** para cada um, nome (ex. `api`, `web`, `mobile`) e caminho relativo a
    partir de onde está o repo de contexto (ex. `../<produto>-api`). Aceite "nenhum ainda, só o
-   repo de contexto por enquanto" — não trave a entrevista por isso (ver Borda, SPEC-007).
+   repo de contexto por enquanto" — não trave a entrevista por isso (ver §5, Bordas).
 3. **Provedores:** para cada container (o repo de contexto e cada repo de serviço informado),
    que provedor/infra roda (ex.: Cloud Run, Vercel, Firebase Auth, Neon/Postgres).
 
@@ -81,20 +81,20 @@ d. **`sync-context.sh` de cada repo de serviço presente no workspace** (no cami
    2): ajuste `CONTEXT_REPO` para a URL real do repo de contexto (`git remote get-url origin`
    deste repo, se já tiver remoto; senão pergunte) e `CONTEXT_REF` se o usuário quiser fixar
    uma tag. Repo de serviço **ausente** do workspace → não há o que editar agora; isso fica
-   para quando o repo existir (parte do "configurar o resto depois" da Borda do SPEC).
+   para quando o repo existir (parte do "configurar o resto depois" — ver §5, Bordas).
 
 e. **`.framework-version`** de cada repo tocado (contexto e cada repo de serviço presente):
    atualize `installed:` para a data de hoje. Tente resolver a versão real via
    `git describe --tags` no repo local do scaffold; se resolver, atualize `version:`; se não
    houver tag (ex. clone raso de `main`), **mantenha** o `version:` que já vinha no arquivo em
    vez de inventar um valor. Nunca edite `files:` aqui — isso é papel do `update-framework.sh`
-   (SPEC-003), não da entrevista.
+   (script de versionamento do framework), não da entrevista.
 
 f. **Remoção de exemplos e meta-docs** — ver lista exata em §4. Regra: remova só o que está
-   **explicitamente** listado (placeholders `*-NNN-example.md`, `_framework/`,
-   `design/AYD-002-framework-improvements.md`); nunca um doc que o usuário já editou com
-   conteúdo real (ver Borda, SPEC-007) — se um dos arquivos da lista já foi claramente editado
-   (não bate mais com o exemplo original), pare e pergunte antes de apagar.
+   **explicitamente** listado (placeholders `*-NNN-example.md`, `_framework/` e afins); nunca
+   um doc que o usuário já editou com conteúdo real (ver §5, Bordas) — se um dos arquivos da
+   lista já foi claramente editado (não bate mais com o exemplo original), pare e pergunte
+   antes de apagar.
 
 g. **Validação final** — rode `scripts/validate.py --repo-root .` no repo de contexto e, para
    cada repo de serviço presente, `docs/scripts/validate.py --repo-root docs`. A remoção do
@@ -103,15 +103,16 @@ g. **Validação final** — rode `scripts/validate.py --repo-root .` no repo de
    terminar. `AC_WITHOUT_TEST` em WARN é esperado e não bloqueia (SPECs recém-instaladas ainda
    não têm testes).
 
-## 4. Remoção — lista exata (AC-5)
+## 4. Remoção — lista exata
 
 No repo de contexto:
 - `design/AYD-001-example.md`
 - `product_decisions/PDR-001-example.md`
 - `architecture_decisions/ADR-001-example.md`
-- `design/AYD-002-framework-improvements.md` (meta-AYD do próprio ciclo de robustez do
-  framework — não é conteúdo do produto adotante)
-- `_framework/` (todas as `SPEC-NNN-*.md` meta, incluindo esta)
+- `design/AYD-002-framework-improvements.md`, se ainda existir (meta-doc do próprio ciclo de
+  desenvolvimento do framework — não é conteúdo do produto adotante)
+- `_framework/`, se ainda existir (docs internas do desenvolvimento do framework; versões mais
+  novas do scaffold podem já não trazer esse diretório — nesse caso não há nada a remover aqui)
 
 Em cada repo de serviço presente no workspace:
 - `docs/specs/SPEC-001-example.md`
@@ -121,7 +122,7 @@ Em cada repo de serviço presente no workspace:
 **Nunca remova** os templates (`*-000-template.md`, `SPEC-000-template.md`, etc.) — são
 arquivos de framework reutilizáveis, listados em `files:` do `.framework-version`.
 
-## 5. Casos de borda (ver SPEC-007 para o texto normativo)
+## 5. Casos de borda
 
 - Repos de serviço ainda não existem → preencha só o que dá (produto, provedor do próprio
   contexto) e siga; não trave a entrevista.
