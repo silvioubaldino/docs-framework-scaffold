@@ -29,4 +29,5 @@ repo adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
 
+- Session memory (journal + state) added to the context repo, loaded at the start of each session.
 - Documentation initialized from the scaffold.

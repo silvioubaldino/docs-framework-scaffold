@@ -2,8 +2,8 @@
 id: SPEC-006
 type: spec
 title: Memória de sessão leve (journal + state)
-status: draft               # draft → review → approved (congela) — ver CLAUDE.md, Lifecycle
-updated: 2026-07-19
+status: review              # draft → review → approved (congela) — ver CLAUDE.md, Lifecycle
+updated: 2026-07-21
 parents: [AYD-002]
 children: []
 related: []                 # sem dependência — paralelizável com SPEC-001/003/004
