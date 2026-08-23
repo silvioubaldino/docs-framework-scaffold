@@ -1,0 +1,7 @@
+.DS_Store
+__pycache__/
+*.pyc
+
+# Saída local do probe — pode conter IP, MAC e credenciais da câmera
+tools/out/
+*.probe.json
